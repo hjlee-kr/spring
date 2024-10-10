@@ -4,11 +4,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 import org.zerock.board.vo.BoardVO;
+import org.zerock.util.page.PageObject;
 
 @Repository
 public interface BoardMapper {
 
-	public List<BoardVO> list();
+	// 1. 일반 게시판 리스트
+	// 일반 게시판 리스트 페이지 처리를 위한 전체 데이터 개수를 가져온다.
+	public Long getTotalRow(PageObject pageObject);
+	// 리스트 가져오는 쿼리 실행
+	public List<BoardVO> list(PageObject pageObject);
 	// 1. 드리이버확인
 	// 2. DB연결
 	// 3. SQL작성
@@ -17,4 +22,22 @@ public interface BoardMapper {
 	// 6. 데이터 담기
 	// 7. DB닫기
 	// 위의 7단계를 mybatis가 대신 처리해 준다.
+	
+	// 2. 일반 게시판 글보기
+	// 조회수 증가
+	public Integer increase(Long no);
+	// 글보기 (글정보)
+	public BoardVO view(Long no);
+	
+	// 3. 일반 게시판 글쓰기
+	public Integer write(BoardVO vo);
 }
+
+
+
+
+
+
+
+
+
