@@ -13,10 +13,12 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.zerock.vo.SampleVO;
 import org.zerock.vo.SampleVOList;
 import org.zerock.vo.TodoVO;
@@ -74,7 +76,7 @@ public class SampleController {
 	public String ex02(String name,
 			@RequestParam(defaultValue = "0") int age) {
 		log.info("get name=" + name + ",age=" + age);
-		return "ex02";
+		return "ex02_1234";
 	}
 	
 	// get방식 매핑
@@ -157,6 +159,33 @@ public class SampleController {
 		
 		return new ResponseEntity<>(msg, header, HttpStatus.OK);
 	}
+	
+	// get방식 - 파일 올리기 폼
+	@GetMapping("/exUpload")
+	public void exUpload() {
+		log.info("exUpload------------------");
+		//void type은
+		// /WEB-INF/views/ + sample/exUpload + .jsp
+	}
+	
+	// post방식 매핑 - 파일 올리기 처리(저장제외)
+	@PostMapping("/exUploadPost")
+	public void exUploadPost(ArrayList<MultipartFile> files) {
+		log.info("exUploadPost-----------------------");
+		for (MultipartFile file: files) {
+			log.info("-----------------------------------");
+			log.info("name : " + file.getOriginalFilename());
+			log.info("size : " + file.getSize());
+		}
+	}
+	
+	// get 매핑
+	@GetMapping("/ex11")
+	public void ex11() {
+		log.info("ex11 ------------");
+		int num = 10 / 0;
+	}
+	
 }
 
 

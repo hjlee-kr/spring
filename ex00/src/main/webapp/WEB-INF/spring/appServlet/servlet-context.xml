@@ -21,8 +21,30 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- 파일 업로드 객체 설정 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 데이터의 인코딩 방식 -->
+		<beans:property name="defaultEncoding" value="utf-8"></beans:property>
+		<!-- 전체 업로드 용량 제한 : 1024 * 1024 * 100 = 1048575600(100MB) -->
+		<beans:property name="maxUploadSize" value="1048575600"></beans:property>
+		<!-- 한개의 파일 업로드 용량 제한 : 1024 * 1024 * 10 = 104857560(10MB) -->
+		<beans:property name="maxUploadSizePerFile" value="104857560"></beans:property>
+		<!-- 큰 용량의 파일이 들어오면 파일로 저장하는 임시폴더가 필요(->세팅) -->
+		<!-- 세팅한 폴더가 반드시 있어야 합니다. -->
+		<beans:property name="uploadTempDir" value="file:c:/upload/temp"></beans:property>
+		<!-- 사용 메모리 용량 제한 : 1MB -->
+		<beans:property name="maxInMemorySize" value="10485756"></beans:property>
+	</beans:bean>
+	
+	
 	<context:component-scan base-package="org.zerock" />
 	
 	
 	
 </beans:beans>
+
+
+
+
+
