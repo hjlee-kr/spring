@@ -31,6 +31,12 @@ public interface BoardMapper {
 	
 	// 3. 일반 게시판 글쓰기
 	public Integer write(BoardVO vo);
+	
+	// 4. 일반 게시판 글수정
+	public Integer update(BoardVO vo);
+	
+	// 5. 일반 게시판 글삭제
+	public Integer delete(BoardVO vo);
 }
 
 

@@ -206,7 +206,7 @@
 	
 </body>
 </html>
-<%session.removeAttribute("msg"); %>
+<%-- <%session.removeAttribute("msg"); %> --%>
 
 
 

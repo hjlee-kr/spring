@@ -46,7 +46,25 @@ public class BoardService {
 		log.info("write() 실행 =====");
 		return mapper.write(vo);
 	}
+	
+	// 4. 일반 게시판 글수정
+	public Integer update(BoardVO vo) {
+		log.info("update() 실행 =====");
+		return mapper.update(vo);
+	}
+	
+	// 5. 일반 게시판 글삭제
+	public Integer delete(BoardVO vo) {
+		log.info("delete() 실행 =====");
+		return mapper.delete(vo);
+	}
 }
+
+
+
+
+
+
 
 
 

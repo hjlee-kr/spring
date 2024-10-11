@@ -13,6 +13,21 @@
 }
 
 </style>
+
+<script type="text/javascript">
+$(function(){
+	// 글수정버튼(id="updateBtn")을 클릭했을때 
+	$("#updateBtn").click(function() {
+		location = "updateForm.do?no=${vo.no}";
+	});
+	
+	// 글삭제버튼(id="deleteBtn")을 클릭했을때
+	// 모달창의 pw내용을 지운다.
+	$("#deleteBtn").click(function() {
+		$("#pw").val("");
+	});
+});
+</script>
 </head>
 <body>
 <div class="container">
@@ -38,10 +53,47 @@
 		</div>
 		<div class="card-footer">
 			<button class="btn btn-primary" id="updateBtn">수정</button>
-			<button class="btn btn-danger" id="deleteBtn">삭제</button>
+			<button class="btn btn-danger" id="deleteBtn"
+				data-toggle="modal" data-target="#deleteModal">삭제</button>
 			<button class="btn btn-warning">취소</button>
 		</div>
 	</div>
+	
+	<!-- The Modal -->
+  <div class="modal fade" id="deleteModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">비밀번호 입력 모달 창</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- deleto.do 로 이동시 no, pw 가 필요합니다. -->
+        <!-- no : hidden으로, pw: 사용자입력으로 세팅 -->
+        <form action="delete.do" method="post">
+        	<input type="hidden" name="no" value="${vo.no }">
+	        <!-- Modal body -->
+	        <div class="modal-body">
+	          <div class="form-group">
+	          	<input class="form-control" type="password"
+	          		name="pw" id="pw">
+	          </div>
+	        </div>
+	        
+	        <!-- Modal footer -->
+	        <div class="modal-footer">
+	          <button class="btn btn-danger">삭제</button>
+	          <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+	        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+	
+	
+	
+	
 </div>
 </body>
 </html>
