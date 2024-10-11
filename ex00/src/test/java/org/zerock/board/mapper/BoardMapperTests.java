@@ -93,7 +93,7 @@ public class BoardMapperTests {
 		log.info(mapper.update(vo));
 	}
 	
-	// 일반게시판 글삭제 테스트
+	// 일반게시판 글삭제 테스트 - ok
 	@Test
 	public void testDelete() {
 		log.info("[일반 게시판 글삭제 (delete()) 테스트]==========================");
