@@ -14,9 +14,26 @@
 
 </style>
 
+<!-- 1. 필요한 전역변수 선언 : 직접코딩 -->
+<script type="text/javascript">
+// 보고 있는 일반 게시판 글번호
+let no = ${vo.no};
+let replyPage = 1;
+console.log("전역변수 no : " + no);
+</script>
 
-<script type="text/javascript" src=""></script>
+<!-- 댓글 객체 (replySerive) 를 선언 : Ajax 처리부분 포함 -->
+<!-- 댓글 처리하는 모든 곳에 사용하는 부분을 코딩 -->
+<script type="text/javascript" src="/js/reply.js"></script>
 
+<script type="text/javascript">
+//replyService.list(1, 10);
+//replyService.list(1); // 일반게시판 글번호는 전역변수로 처리
+//replyService.list();
+</script>
+<!-- 댓글 객체(reply.js에서 선언한 replyService)를 호출하여 처리 + 이벤트처리 -->
+<!-- 일반 게시판 댓글에 사용되는 부분을 코딩 -->
+<script type="text/javascript" src="/js/replyProcess.js"></script>
 
 <script type="text/javascript">
 $(function(){
