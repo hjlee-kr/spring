@@ -3,6 +3,7 @@ package org.zerock.board.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,9 @@ import oracle.jdbc.proxy.annotation.Post;
 public class BoardController {
 	
 	// 자동 DI
-	@Setter(onMethod_ = @Autowired)
+	//@Setter(onMethod_ = @Autowired)// @Qualifier 사용시 @Setter 사용하면 오류발생
+	@Autowired	// @Setter(@onMethod_ = @Autowired) 대치해서 사용
+	@Qualifier("boardServiceImpl")
 	private BoardService service;
 
 	// 1. 일반 게시판 리스트
