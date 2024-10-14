@@ -14,6 +14,10 @@
 
 </style>
 
+
+<script type="text/javascript" src=""></script>
+
+
 <script type="text/javascript">
 $(function(){
 	// 글수정버튼(id="updateBtn")을 클릭했을때 
@@ -58,6 +62,14 @@ $(function(){
 			<button class="btn btn-warning">취소</button>
 		</div>
 	</div>
+	<!-- 글보기 card가 끝 -->
+	
+	<div>
+		<jsp:include page="boardreply.jsp"></jsp:include>
+	</div>
+	
+	
+	
 	
 	<!-- The Modal -->
   <div class="modal fade" id="deleteModal">
