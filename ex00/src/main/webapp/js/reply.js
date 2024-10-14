@@ -10,11 +10,36 @@ console.log("Board Reply Module ..........................");
 let replyService = {
 
 	// 1. 일반 게시판 댓글 리스트 처리
-	"list": function(page) {
+	"list": function(page, callback, error) {
 		console.log("댓글 리스트.......");
 		// page가 없으면 page = 1로 만든다.
 		if (!page) page = 1;
 		console.log("page : " + page + ", no : " + no);
+		
+		// ajax 형태를 만들어 처리합니다. - getJSON()
+		$.getJSON( // (url, 성공함수, 실패함수)
+			"/boardreply/list.do?page=" + page + "&no=" + no,
+			// 데이터 가져오기를 성공하면 실행되는 함수.
+			// data - 서버에서 넘겨주는 JSON 데이터
+			function(data) {
+				// 데이터 확인
+				console.log(data);
+				console.log(JSON.stringify(data)); // JSON데이터를 문자열로 리턴
+				// callback  구현 - callback 있으면 실행
+				// 태그형태가 달려졌을때 사용하기 위해서
+				if (callback) callback(data);
+			}
+		// 실패했을때 실행되는 함수
+		).fail(function(xhr, status, err) {
+			console.log("댓글 리스트 데이터 가져오기 오류 ****************");
+			console.log("xhr" + xhr);
+			console.log("status" + status);
+			console.log("err" + err);
+			
+			// error 있으면 실행
+			if (error) error();
+			else alert("댓글 데이터 가져 오는 중 오류 발생");
+		});
 	},
 	// 2. 일반 게시판 댓글 등록 처리
 	// write(댓글객체, 성공함수, 실패함수)

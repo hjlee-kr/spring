@@ -19,6 +19,10 @@
 	  		(
 			  	select b.rno, b.no, b.content, b.id, m.name, b.writeDate
 			  	from board_reply b, member m
+			  	where
+			  		(no = #{no}) <!-- 일반조건 -->
+			  		and
+			  		(b.id = m.id) <!-- 조인조건 -->
 			  	order by rno desc
 		  	)
 	  	)
