@@ -33,7 +33,15 @@
 				str += '<small class="pull-right text-muted">';
 				str += toDateTime(list[i].writeDate) + '</small>';
 				str += '</div>';
-				str += '<p><pre>' + list[i].content +'</pre></p>';
+				str += '<p><pre class="replyContent">' + list[i].content +'</pre></p>';
+				// 접속자 id와 작성자 id가 같은때만 수정/삭제가 가능하도록 구현
+				if (id == list[i].id) {
+					str += '<div>';
+					str += '<button class="replyUpdateBtn btn btn-success btn-sm">수정</button>';
+					//str += "<button class=\"replyUpdateBtn btn btn-success btn-sm\">수정</button>";
+					str += '<button class="replyDeleteBtn btn btn-danger btn-sm">삭제</button>';
+					str += '</div>';
+				}
 				str += '</div>';
 				str += '</li>';
  			}
@@ -51,11 +59,17 @@
  	// 태그들이 모두 올라온 후에 처리할 수 있어야 합니다. $(function() {  이벤트처리  })
  	// {} 안에 이벤트처리부분이 구현되어야 정상동작 합니다.
  	
+ 	// 새로운 댓글을 작성하기 위해 new reply 버튼 클릭시 이벤트
  	$("#newReplyBtn").click(function() {
- 		// 이전 댓글 내용을 지운다.
+ 		// 버튼 처리 - 등록버튼은 보이고, 수정버튼은 안보이도록 처리
+ 		$("#replyWriteBtn").show();
+ 		$("#replyUpdateBtn").hide();
+ 
+ 		
+ 		// 모달창에 title을 "댓글 등록"로 보여줍니다.
+ 		$("#replyModal .modal-title").text("댓글 등록");
+ 		// 이전에 작성했던 댓글 내용을 지워줍니다.
  		$("#replyContent").val("");
- 	
- 	
  	});
  
  	// 댓글 등록 모달 창에서 "등록" 버튼 click이벤트 처리
@@ -81,11 +95,87 @@
  				showList(1);
  			}
  		);
+ 	}); // end of $("#replyWriteBtn").click() 
+ 	
+ 	
+ 	//$(".replyUpdateBtn").click(function() {
+ 	//	alert("수정 버튼 클릭");
+ 	//}); // end of $(".replyUpdateBtn").click()
+ 	// 위 코드가 반응을 안하는 이유는 jsp에서 구현한것이 아니고 javascript에서 
+ 	// 작성해서 표시한 코드라 바로 찾지를 못합니다.
+ 	// 맨앞의 선택자는 원래존재(jsp코드에 있는) 한 객체(tag, class, id)를 사용합니다.
+ 	// 그 객체 안에있는 HTML 코드안에 find를 사용하여 찾으면 됩니다.
+ 	// 이벤트 위임 (첫번째에 적힌 이벤트를 두번째 객체가 처리한다. 3번째 함수을 이용해서)
+ 	$(".chat").on("click", ".replyUpdateBtn", function() {
+ 		//alert("수정 버튼 클릭");
+ 		// 버튼처리 - 수정버튼은 보이게, 등록버튼은 안보이게
+ 		$("#replyWriteBtn").hide();
+ 		$("#replyUpdateBtn").show();
  		
+ 		// 모달창에 title을 "댓글 수정"로 보여줍니다.
+ 		$("#replyModal .modal-title").text("댓글 수정");
+ 		// click이벤트 발생한 곳에서 위로 올라가면서 첫번째로 만나는
+ 		// <li> 태그를 찾아서 위치를 변수로 넘깁니다.
+ 		let li = $(this).closest("li");
+ 		// 기존 작성한 댓글을 불러와서 modal창에 보여줍니다.
+ 		// 클릭한 댓글번호를 모달창의 hidden 에 보관합니다.
+ 		$("#replyRno").val(li.data("rno"));
+ 		$("#replyContent").val(li.find(".replyContent").text());
+ 		// 세팅이 끝나고 모달을 보여줍니다.
+ 		$("#replyModal").modal("show");
+ 	}); // end of $(".chat").on()
+ 	
+ 	// 화면구성이 끝나고
+ 	// 수정처리 이벤트(모달의 수정버튼)
+ 	$("#replyUpdateBtn").click(function(){
+ 		// 데이터 수집 -> JSON데이터를 만든다. - rno, content
+ 		let reply = {rno : $("#replyRno").val(),
+ 			content : $("#replyContent").val()};
+ 			
+ 		console.log(reply);
+ 		
+ 		// 댓글 수정 처리
+ 		replyService.update(reply, // 서버에 전달되는 데이터
+ 			function(result) { // 성공함수
+ 				$("#replyModal").modal("hide");
+ 				// sitemesh에서 구현해 놓은 모달창에 결과를 보여주도록 만듭니다.
+ 				$("#msgModal .modal-body").text(result);
+ 				$("#msgModal").modal("show");
+ 				// 댓글을 수정한 후 리스트를 다시 불러옵니다.
+ 				// 수정한 댓글이 있는 페이지로 세팅
+ 				showList(replyPage);
+ 			}
+ 		);
+ 		
+ 	}); // end of $("#replyUpdateBtn").click()
+ 	
+ 	// 4. 댓글 삭제 버튼
+ 	$(".chat").on("click", ".replyDeleteBtn", function() {
+ 		//alert("삭제 버튼 클릭");
+ 		if (!confirm("정말 삭제 하시겠습니까?")) {
+ 			// 삭제를 안하겠다.
+ 			return;
+ 		}
+ 		// 삭제처리 (yes)
+ 		// rno 수집
+ 		let rno = $(this).closest("li").data("rno");
+ 		
+ 		// 삭제 서비스 실행
+ 		replyService.delete(rno,
+ 			function(result) {
+ 				$("#msgModal .modal-body").text(result);
+ 				$("#msgModal").modal("show");
+ 				// 댓글 삭제 후 리스트를 다시 불러옵니다.
+ 				// 리스트가 변경되었으므로 1page로 갑니다.
+ 				showList(1);	
+ 			}
+ 		);
+ 	
+ 	
  	});
  
  
- });
+ }); // end of  $(function(){})
  
  
  

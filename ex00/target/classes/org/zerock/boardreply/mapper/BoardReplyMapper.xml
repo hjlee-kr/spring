@@ -43,20 +43,20 @@
 		values(#{rno}, #{no}, #{content}, #{id})
 	</insert>
 	
-	<!-- 일반 게시판 글수정 쿼리 -->
+	<!-- 일반 게시판 댓글수정 쿼리 -->
 	<update id="update">
 	<!-- ![CDATA[]] 를 사용하면 특수문자를 string으로 인식하게 만들어준다. -->
 	<![CDATA[
-		update board
-		set title = #{title}, content = #{content}, writer = #{writer}
-		where no = #{no} and pw = #{pw}
+		update board_reply
+		set content = #{content}
+		where rno = #{rno} and id = #{id}
 	]]>
 	</update>
 	
-	<!-- 일반 게시판 글삭제 쿼리 -->
+	<!-- 일반 게시판 댓글삭제 쿼리 -->
 	<delete id="delete">
-		delete from board
-		where no = #{no} and pw = #{pw}
+		delete from board_reply
+		where rno = #{rno} and id = #{id}
 	</delete>
 
   </mapper>

@@ -42,13 +42,13 @@ public class BoardReplyServiceImpl implements BoardReplyService {
 	@Override
 	public Integer update(BoardReplyVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.update(vo);
 	}
 
 	@Override
 	public Integer delete(BoardReplyVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.delete(vo);
 	}
 
 }

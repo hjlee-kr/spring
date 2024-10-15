@@ -68,11 +68,52 @@ let replyService = {
 	// 3. 일반 게시판 댓글 수정 처리
 	// update(댓글객체, 성공함수, 실패함수)
 	"update": function(reply, callback, error) {
+		console.log("댓글 수정 ----------------------");
+		
+		$.ajax({
+			type : "post", // 데이터 전송 방식
+			url : "/boardreply/update.do", // mapping url -> RestController에 mapping된
+			data : JSON.stringify(reply), // 서버에 전송되는 데이터
+			contentType : "application/json; charset:utf-8", // 서버에 전송되는 데이터타입과 엔코딩형식
+			// 성공했을 때 함수
+			success : function(result, status, xhr) {
+				if (callback) callback(result);
+				else alert(result);
+			},
+			// 실패했을 때 함수
+			error : function(xhr, status, err) {
+				console.log("xhr : " + xhr);
+				console.log("status : " + status);
+				console.log("err : " + err);
+				if (error) error(err);
+				else alert("댓글이 수정되지 않았습니다.");
+			}
+		});
 	},
 	// 4. 일반 게시판 댓글 삭제 처리
 	// delete(댓글객체, 성공함수, 실패함수)
-	"delete": function(reply, callback, error) {
-	}
+	"delete": function(rno, callback, error) {
+		console.log("댓글 삭제 --------------------------");
+		
+		$.ajax({
+			type : "get", // 데이터 전송 방식
+			url : "/boardreply/delete.do?rno=" + rno,
+			// 성공하는 함수
+			success : function(result, status, xhr) {
+				if (callback) callback(result);
+				else alert(result);
+			},
+			error : function(xhr, status, err) {
+				console.log("xhr : " + xhr);
+				console.log("status : " + status);
+				console.log("err : " + err);
+				if (error) error(err);
+				else alert("댓글이 삭제 되지 않았습니다.");
+			}
+		});
+		
+		
+	} // end of "delete": function(){}
 
 };
 

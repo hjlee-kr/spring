@@ -88,6 +88,47 @@ public class BoardReplyRestController {
 		return new ResponseEntity<String>("댓글 등록이 완료되었습니다.", HttpStatus.OK);
 	}
 	
+	// 3. 일반게시판 댓글 수정 - update - post
+	@PostMapping(value = "/update.do",
+			consumes = "application/json", //rno, content
+			produces = "text/plain; charset=UTF-8"
+			)
+	public ResponseEntity<String> update(@RequestBody BoardReplyVO vo, HttpSession session) {
+		log.info("update.do ---------------------------------");
+		
+		// 로그인 되어야 사용 가능
+		vo.setId(getId(session));
+		
+		// 수정 처리
+		Integer result = service.update(vo);
+		
+		if (result == 1) {
+			return new ResponseEntity<String>("댓글이 수정되었습니다.", HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<String>("댓글이 수정되지 않았습니다.", HttpStatus.BAD_REQUEST);
+	}
+	
+	// 4. 일반 게시판 댓글 삭제 - delete - get
+	@GetMapping(value = "/delete.do",
+			produces = "text/plain; charset=UTF-8")
+	// delete는 사용자에게서 rno만 넘어옵니다. 그래서 JSON을 사용하지 않아도 되기때문에
+	// 어노테이션이 필요없습니다.
+	public ResponseEntity<String> delete(BoardReplyVO vo, HttpSession session) {
+		log.info("delete.do --------------------------------------");
+		
+		// 로그인 되어야 삭제할 수 있다.
+		vo.setId(getId(session));
+		
+		// 삭제 처리
+		Integer result = service.delete(vo);
+		
+		if (result == 1) {
+			return new ResponseEntity<String>("댓글이 삭제 되었습니다.", HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("댓글이 삭제 되지 않았습니다", HttpStatus.BAD_REQUEST);
+	}
+	
 	
 	private String getId(HttpSession session) {
 		// LoginVO vo = (LoginVO) session.getAttribute("login");
@@ -95,6 +136,8 @@ public class BoardReplyRestController {
 		// 강제 로그인 처리를 합니다. - 테스트를 위해서
 		return "test1";
 	}
+	
+	
 }
 
 

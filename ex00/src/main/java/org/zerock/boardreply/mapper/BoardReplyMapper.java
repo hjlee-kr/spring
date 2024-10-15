@@ -23,9 +23,9 @@ public interface BoardReplyMapper {
 		@Param("pageObject") PageObject pageObject,
 		@Param("no") Long no);
 	// 2. write
-	public Integer write(BoardReplyVO vo);
+	public Integer write(BoardReplyVO vo);// no, content, id
 	// 3. update
-	public Integer update(BoardReplyVO vo);
+	public Integer update(BoardReplyVO vo);// rno, content, id
 	// 4. delete
-	public Integer delete(BoardReplyVO vo);
+	public Integer delete(BoardReplyVO vo);// rno, id
 }

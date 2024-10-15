@@ -17,6 +17,7 @@
 <!-- 1. 필요한 전역변수 선언 : 직접코딩 -->
 <script type="text/javascript">
 // 보고 있는 일반 게시판 글번호
+let id = "test1";// id를 하드코딩 - member table에 등록된 id중 - 로그인 id
 let no = ${vo.no};
 let replyPage = 1;
 console.log("전역변수 no : " + no);

@@ -49,12 +49,14 @@
         
         <!-- Modal body -->
         <div class="modal-body">
+        	<input type="hidden" id="replyRno"> <!-- 댓글 수정에 사용하기 위해 rno 보관 -->
           <textarea rows="4" class="form-control" id="replyContent"></textarea>
         </div>
         
         <!-- Modal footer -->
         <div class="modal-footer">
         	<button class="btn btn-primary" id="replyWriteBtn">등록</button>
+        	<button class="btn btn-success" id="replyUpdateBtn">수정</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
         </div>
         
