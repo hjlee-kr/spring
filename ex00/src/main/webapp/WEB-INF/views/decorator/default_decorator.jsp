@@ -167,8 +167,7 @@
 		<p>이 홈페이지의 저작권은 이현진에게 있습니다.</p>
 	</footer>
 	
-	<!-- session 담은 msg를 보여주는 모달창 -->
-	<c:if test="${!empty msg}">
+	
 	  <!-- The Modal -->
 	  <div class="modal fade" id="msgModal">
 	    <div class="modal-dialog">
@@ -194,7 +193,8 @@
 	    </div>
 	  </div>
   
-
+	<!-- session 담은 msg를 보여주는 모달창 -->
+	<c:if test="${!empty msg}">
 		<!-- 모달을 보이게하는 javascript -->
 		<script type="text/javascript">
 			$(function() {

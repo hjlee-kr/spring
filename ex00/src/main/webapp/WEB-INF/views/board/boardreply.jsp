@@ -8,6 +8,11 @@
 			<!-- 댓글 제목 -->
 			<div class="card-header" style="background:#e0e0e0">
 				<i class="fa fa-comments fa-fw"></i> Reply
+				<!-- Button to Open the Modal -->
+				<button type="button" class="btn btn-primary btn-sm pull-right"
+				 data-toggle="modal" data-target="#replyModal" id="newReplyBtn">
+					New Reply
+				</button>
 			</div>
 
 			<!-- 댓글 리스트 데이터 출력 -->		
@@ -30,4 +35,30 @@
 	</div>
 </div>
 
-
+<!-- The Modal -->
+	<!-- id와 Modal여는 버튼의 data-target의 이름을 같게해야 합니다. -->
+  <div class="modal fade" id="replyModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">댓글 등록</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <textarea rows="4" class="form-control" id="replyContent"></textarea>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+        	<button class="btn btn-primary" id="replyWriteBtn">등록</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+ 

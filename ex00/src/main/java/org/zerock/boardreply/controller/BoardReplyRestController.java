@@ -4,12 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.zerock.boardreply.service.BoardReplyService;
@@ -61,6 +65,35 @@ public class BoardReplyRestController {
 		log.info("After map : " + map);
 				
 		return new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+	}
+	
+	// 2. 일반게시판 댓글 쓰기 - write - post
+	@PostMapping(value = "/write.do",
+			consumes = "application/json", // no, content
+			produces = "text/plain; charset=UTF-8"
+			)
+	// json데이터를 파라메터로 줄때 어노테이션을 붙여서 전달해야 합니다.
+	// @RequestBody를 객체 앞에 붙여줍니다.
+	public ResponseEntity<String> write(@RequestBody BoardReplyVO vo, HttpSession session) {
+		// uri와 같이 넘어오는 데이터의 name 과 
+		// 파라메터에 적힌 자료형은 변수이름 또는 클래스의 변수이름과 같으면
+		// 자동으로 value가 파라메터에 적용됩니다.
+		
+		// 로그인 되어 있어야 댓글 쓰기를 사용할 수 있습니다.
+		vo.setId(getId(session));
+		
+		// 댓글 등록 처리
+		service.write(vo);
+				
+		return new ResponseEntity<String>("댓글 등록이 완료되었습니다.", HttpStatus.OK);
+	}
+	
+	
+	private String getId(HttpSession session) {
+		// LoginVO vo = (LoginVO) session.getAttribute("login");
+		// String id = vo.getId();
+		// 강제 로그인 처리를 합니다. - 테스트를 위해서
+		return "test1";
 	}
 }
 

@@ -44,6 +44,26 @@ let replyService = {
 	// 2. 일반 게시판 댓글 등록 처리
 	// write(댓글객체, 성공함수, 실패함수)
 	"write": function(reply, callback, error) {
+		console.log("댓글 등록 --------------");
+		
+		$.ajax({
+			type: "post", // 데이터 전송 방식
+			url: "/boardreply/write.do", // mapping되는 url을 적는다.
+			data: JSON.stringify(reply), // 서버에 전송되는 데이터 - body
+			contentType: "application/json; charset:utf-8", // 서버에 전송되는 데이터 타입과 엔코딩방식을 적는다.
+			// 성공했을때 함수
+			success: function(result, status, xhr) {
+				if (callback) callback(result);
+				else alert(result);
+			},
+			error: function(xhr, status, err) {
+				console.log("xhr : " + xhr);
+				console.log("status : " + status);
+				console.log("err : " + err);
+				if (error) error(err);
+				else alert("댓글이 등록되지 않았습니다.");
+			}
+		});
 	},
 	// 3. 일반 게시판 댓글 수정 처리
 	// update(댓글객체, 성공함수, 실패함수)

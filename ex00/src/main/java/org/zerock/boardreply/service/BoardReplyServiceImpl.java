@@ -36,7 +36,7 @@ public class BoardReplyServiceImpl implements BoardReplyService {
 	@Override
 	public Integer write(BoardReplyVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.write(vo);
 	}
 
 	@Override
