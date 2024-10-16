@@ -40,10 +40,10 @@
 				<!-- '%' || #{word} || '%' => 하나의 문자열로 만들어 줍니다.(oracle) -->
 				or title like '%' || #{word} || '%' 
 			</if>
-			<if test="key.indexOf('c')">
+			<if test="key.indexOf('c') >= 0">
 				or content like '%' || #{word} || '%'
 			</if>
-			<if test="key.indexOf('w')">
+			<if test="key.indexOf('w') >= 0">
 				or writer like '%' || #{word} || '%'
 			</if>
 		</trim> 
