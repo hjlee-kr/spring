@@ -24,6 +24,7 @@
  				return;
  			}
  			// 데이터가 있는 경우의 처리
+ 			// **** 댓글 리스트 출력 ****
  			for(let i = 0 ; i < list.length ; i++) {
  				str += '<li class="left clearfix" data-rno="' + list[i].rno + '">';
 				str += '<div>';
@@ -46,6 +47,9 @@
 				str += '</li>';
  			}
  			$(".chat").html(str);
+ 			
+ 			// **** 댓글 페이지네이션 출력 **** ; util.js 선언하고 구현되어있다.
+ 			$(".pagination").html(replyPagination(data.pageObject));
  		}
  	);
  };

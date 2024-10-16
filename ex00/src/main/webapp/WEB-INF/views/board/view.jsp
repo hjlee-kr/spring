@@ -19,12 +19,15 @@
 // 보고 있는 일반 게시판 글번호
 let id = "test1";// id를 하드코딩 - member table에 등록된 id중 - 로그인 id
 let no = ${vo.no};
-let replyPage = 1;
+let replyPage = 1; // 댓글의 현재 페이지
 console.log("전역변수 no : " + no);
 </script>
 
 <!-- 2. 날짜 및 시간 처리함수 선언 -->
 <script type="text/javascript" src="/js/dateTime.js"></script>
+
+<!-- 댓글 페이지네이션 함수 선언 -->
+<script type="text/javascript" src="/js/util.js"></script>
 
 <!-- 3. 댓글 객체 (replySerive) 를 선언 : Ajax 처리부분 포함 -->
 <!-- 댓글 처리하는 모든 곳에 사용하는 부분을 코딩 -->
