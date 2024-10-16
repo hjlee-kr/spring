@@ -31,6 +31,8 @@ public interface BoardMapper {
 	
 	// 3. 일반 게시판 글쓰기
 	public Integer write(BoardVO vo);
+	// 글등록의 트랜젝션 처리 테스트 위한 메서드
+	//public Integer writeTx(BoardVO vo);  - 테스트용
 	
 	// 4. 일반 게시판 글수정
 	public Integer update(BoardVO vo);
