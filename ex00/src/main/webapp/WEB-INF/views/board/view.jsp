@@ -54,6 +54,17 @@ $(function(){
 	$("#deleteBtn").click(function() {
 		$("#pw").val("");
 	});
+	
+	// 리스트버튼(id="listBtn")을 클릭했을때
+	// list.do 로 이동한다.
+	// param. 으로 되어있는 값은 url에서 같이 넘어온 값(적혀있는값) - get
+	$("#listBtn").click(function() {
+		//alert("리스트 버튼 클릭");
+		location = "list.do?page=${param.page}"
+			+ "&perPageNum=${param.perPageNum}"
+			+ "&key=${param.key}"
+			+ "&word=${param.word}";
+	});
 });
 </script>
 </head>
@@ -83,7 +94,7 @@ $(function(){
 			<button class="btn btn-primary" id="updateBtn">수정</button>
 			<button class="btn btn-danger" id="deleteBtn"
 				data-toggle="modal" data-target="#deleteModal">삭제</button>
-			<button class="btn btn-warning">취소</button>
+			<button class="btn btn-warning" id="listBtn">리스트</button>
 		</div>
 	</div>
 	<!-- 글보기 card가 끝 -->

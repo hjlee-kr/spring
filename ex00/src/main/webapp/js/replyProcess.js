@@ -174,12 +174,30 @@
  				showList(1);	
  			}
  		);
- 	
- 	
  	});
+
+	// 댓글 페이지네이션 이벤트 처리
+	$(".pagination").on("click", "a", function() {
+		// 1. 이벤트가 적용되는지 확인
+		//alert("페이지버튼 클릭");
+		let page = $(this).parent().data("page"); // <li> 태그안에 page값을 가져온다.
+		//alert("이동페이지 : " + page);
+		if (replyPage != page) {
+			// 현재 페이지 이외의 버튼을 클릭했을때만 처리
+			//alert("이동페이지 : " + page);
+			replyPage = page; // 이동할 페이지를 현재 페이지로 세팅
+			showList(replyPage);
+		}
+	
+		return false;
+	}); 
+
+
+
  
  
- }); // end of  $(function(){})
+ 
+}); // end of  $(function(){}) // 이벤트 처리 끝
  
  
  

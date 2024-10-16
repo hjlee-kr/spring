@@ -24,15 +24,15 @@ function replyPagination(pageObject) {
 	
 	// 이전 페이지가 없으면 disabled 추가
 	if (pageObject.startPage == 1) str += ' disabled ';
-	
-	str += '"><a class="page-link" href="#">Previous</a></li>';
+	// 이전 페이지를 버튼을 누르면 startPage-1 로 이동하도록 구현 (data-page에 세팅)
+	str += '" data-page="' + (pageObject.startPage - 1) + '"><a class="page-link" href="#">Previous</a></li>';
 	// *** 앞 페이지 그룹으로 이동(Previous) - 끝
 	
 	// startPage 부터 endPage 까지 반복처리하면서 페이지버튼을 만든다.
 	for (let i = pageObject.startPage ; i <= pageObject.endPage ; i++) {
 		str += '<li class="page-item';
 		if (replyPage == i) str += ' active ';
-		str += '"><a class="page-link" href="#">' + i + '</a></li>';
+		str += '" data-page="' + i + '"><a class="page-link" href="#">' + i + '</a></li>';
 	} 
 	
 	// 다음 페이지그룹으로 이동
@@ -41,7 +41,8 @@ function replyPagination(pageObject) {
 	if (pageObject.endPage >= pageObject.totalPage) {
 		str += ' disabled ';
 	}
-	str += '"><a class="page-link" href="#">Next</a></li>';
+	// 다음 페이지 버튼을 누르면 endPage + 1 로 이동 (date-page에 세팅)
+	str += '" data-page="' + (pageObject.endPage + 1) + '"><a class="page-link" href="#">Next</a></li>';
 
 	return str; 
  
