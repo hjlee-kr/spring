@@ -13,6 +13,8 @@
 	  		(
 			  	select no, title, writer, writeDate, hit
 			  	from board
+			  	<!-- 검색을 달아야 한다. -->
+			  	<include refid="search"></include>
 			  	order by no desc
 		  	)
 	  	)
@@ -22,7 +24,32 @@
   	<select id="getTotalRow" resultType="Long">
   		select count(*)
   		from board
+  		<!-- 검색을 달아야 한다. -->
+  		<include refid="search"></include>
   	</select>
+  	
+  	<!-- 일반게시판 리스트 검색 처리 -->
+  	<!-- sql 태그는 함수라고 생각하면 편리합니다. -->
+  	<sql id="search">
+  	<!-- 검색어가 없거나 null일때 동작하지 않도록 처리 -->
+  	<if test="word != null and word != ''.toString()">
+  		<!-- trim안의 쿼리문 작성후 제일앞에 where 붙이고 where 다음에 나오는 or는 제거합니다. -->
+		<trim prefix="where" prefixOverrides="or">
+			 <!-- t(제목) 이 있으면 -->
+			<if test="key.indexOf('t') >= 0">
+				<!-- '%' || #{word} || '%' => 하나의 문자열로 만들어 줍니다.(oracle) -->
+				or title like '%' || #{word} || '%' 
+			</if>
+			<if test="key.indexOf('c')">
+				or content like '%' || #{word} || '%'
+			</if>
+			<if test="key.indexOf('w')">
+				or writer like '%' || #{word} || '%'
+			</if>
+		</trim> 
+	</if> 	
+  	</sql>
+  	
   	<!-- 일반 게사판 글보기 -->
   	<!-- 조회수 1증가 쿼리 -->
   	<update id="increase">
