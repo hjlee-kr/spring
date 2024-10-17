@@ -12,6 +12,8 @@
 $(function(){
 	console.log("jquery 확인");
 	
+	let cloneObj = $(".uploadDiv").clone();
+	
 	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)");
 	let maxSize = 1024 * 1024 * 5; //5MB (5242880)
 	
@@ -29,6 +31,15 @@ $(function(){
 		return true;
 	}
 	
+	function showUploadFile(list) {
+		let str = "";
+		
+		$(list).each(function(i, obj) {
+			str += "<li>" + obj.fileName + "</li>";
+		});
+		
+		$(".uploadResult").html(str);
+	}
 	
 	
 	$("#uploadBtn").click(function(){
@@ -54,8 +65,15 @@ $(function(){
 			processData: false,
 			contentType: false,
 			data: formData,
+			dataType: 'json',
 			success: function(result) {
-				alert("업로드가 되었습니다.")
+				//alert("업로드가 되었습니다.")
+				console.log(result);
+				
+				// 파일 업로드 후 초기화
+				$(".uploadDiv").html(cloneObj.html());
+				
+				showUploadFile(result);
 			}
 		});
 	});// end of $("#uploadBtn").click()
@@ -72,6 +90,10 @@ $(function(){
 </div>
 
 <button id="uploadBtn">Upload</button>
+
+<ul class="uploadResult">
+	<li>이미지파일이 없습니다.</li>
+</ul>
 
 </body>
 </html>
