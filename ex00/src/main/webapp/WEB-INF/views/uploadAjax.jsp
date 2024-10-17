@@ -8,6 +8,30 @@
 <title>Insert title here</title>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
+<style type="text/css">
+.show {
+	width:100%;
+	background-color:gray;
+}
+
+.uploadResult {
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.uploadResult li {
+	list-style: none;
+	padding: 10px;
+}
+
+.uploadResult li img {
+	width: 20px;
+}
+
+</style>
+
 <script type="text/javascript">
 $(function(){
 	console.log("jquery 확인");
@@ -35,7 +59,14 @@ $(function(){
 		let str = "";
 		
 		$(list).each(function(i, obj) {
-			str += "<li>" + obj.fileName + "</li>";
+			
+			if (!obj.image) {
+				str += "<li><img src='/upload/image/attach.png'>" +
+					obj.fileName + "</li>";
+			}
+			else {
+				str += "<li>" + obj.fileName + "</li>";
+			}
 		});
 		
 		$(".uploadResult").html(str);
@@ -91,10 +122,11 @@ $(function(){
 
 <button id="uploadBtn">Upload</button>
 
-<ul class="uploadResult">
-	<li>이미지파일이 없습니다.</li>
-</ul>
-
+<div class="show">
+	<ul class="uploadResult">
+		<li>이미지파일이 없습니다.</li>
+	</ul>
+</div>
 </body>
 </html>
 
