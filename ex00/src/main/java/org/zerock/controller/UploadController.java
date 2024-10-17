@@ -176,13 +176,23 @@ public class UploadController {
 		
 		log.info("resource : " + resource);
 		
+		if (resource.exists() == false) {
+			return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
+		}
+		
 		String resourceName = resource.getFilename();
 		
-		HttpHeaders headers = new HttpHeaders();
+		// UUID를 없애는 부분
+		String resourceOriginalName
+			= resourceName.substring(resourceName.indexOf("_") + 1);
 		
+		String downloadName
+			= new String(resourceOriginalName.getBytes("UTF-8"), "ISO-8859-1");
+		
+		HttpHeaders headers = new HttpHeaders();
+		// Content-Dispositon : attachment 다운로드 처리를 하라는 header 문
 		headers.add("Content-Disposition", 
-				"attachment; fileName="
-				+ new String(resourceName.getBytes("UTF-8"), "ISO-8859-1"));
+				"attachment; fileName="	+ downloadName);
 		
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 	}
