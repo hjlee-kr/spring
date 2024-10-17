@@ -1,6 +1,7 @@
 package org.zerock.controller;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +49,46 @@ public class UploadController {
 			}
 		} // end of for()
 	} // end of uploadFormPost()
+	
+	// Ajax 이용한 파일 업로드
+	@GetMapping("/uploadAjax")
+	public void uploadAjax() {
+		log.info("uploadAjax ..........................");
+		// 매서드 처리가 끝나고
+		// "/WEB-INF/views/uploadAjax.jsp" 로 이동한다.
+	}
+	
+	@PostMapping("/uploadAjaxAction")
+	public void uploadAjaxAction(MultipartFile[] uploadFile) throws Exception {
+		log.info("uploadAjaxAction ....................");
+		
+		String uploadFolder = "C:/upload";
+		
+		// foreach 형태로 사용 (향상된 for문)
+		for (MultipartFile multipartFile : uploadFile) {
+			log.info("============================================");
+			log.info("upload file name : " + multipartFile.getOriginalFilename());
+			log.info("upload file size : " + multipartFile.getSize());
+			
+			String uploadFileName = multipartFile.getOriginalFilename();
+			
+			File saveFile = new File(uploadFolder, uploadFileName);
+			multipartFile.transferTo(saveFile);
+		}
+	}
+	
+	
 } // end of class
+
+
+
+
+
+
+
+
+
+
 
 
 
