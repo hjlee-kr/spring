@@ -3,6 +3,7 @@ package org.zerock.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,11 +11,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -134,6 +139,54 @@ public class UploadController {
 		
 		return new ResponseEntity<List<AttachFileVO>>(list, HttpStatus.OK);
 	}
+	
+	
+	@GetMapping("/display")
+	@ResponseBody
+	// 이미지 파일 정보를 받아서 이미지 데이터를 전송하는 메서드
+	public ResponseEntity<byte[]> getFile(String fileName) throws Exception {
+		log.info("fileName : " + fileName);
+		
+		File file = new File("c:/upload/" + fileName);
+		
+		log.info("file : " + file);
+		
+		// 전달할 값을 저장할 변수
+		ResponseEntity<byte[]> result = null;
+		
+		HttpHeaders header = new HttpHeaders();
+		
+		header.add("Content-Type", Files.probeContentType(file.toPath()));
+		
+		result = new ResponseEntity<byte[]>
+			(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+		
+		return result;
+	}
+	
+	@GetMapping(value = "/download",
+			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(String fileName) throws Exception {
+		
+		log.info("fileName : " + fileName);
+		
+		FileSystemResource resource =
+				new FileSystemResource("c:/upload/" + fileName);
+		
+		log.info("resource : " + resource);
+		
+		String resourceName = resource.getFilename();
+		
+		HttpHeaders headers = new HttpHeaders();
+		
+		headers.add("Content-Disposition", 
+				"attachment; fileName="
+				+ new String(resourceName.getBytes("UTF-8"), "ISO-8859-1"));
+		
+		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
+	}
+	
 	
 	// 저장폴더를 YYYY/MM/DD 가 되도록 만드는 메서드
 	private String getFolder() {

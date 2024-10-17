@@ -27,7 +27,7 @@
 }
 
 .uploadResult li img {
-	width: 20px;
+	width: 50px;
 }
 
 </style>
@@ -65,7 +65,19 @@ $(function(){
 					obj.fileName + "</li>";
 			}
 			else {
-				str += "<li>" + obj.fileName + "</li>";
+				//str += "<li>" + obj.fileName + "</li>";
+				let fileCallPath = obj.uploadPath
+					+ "/s_" + obj.uuid + "_" + obj.fileName;
+				
+				// windows os에서 폴더사이가 \로 되어있어서
+				// url에서 사용하려면 /로 변경하여야 합니다.
+				let filePath = fileCallPath.replaceAll("\\", "/"); 
+				// vo에 c:/upload/~~~로 저장이 되어있어서
+				// 'c:/upload'를 제거하고 하위경로에서 파일이름까지만 저장
+				filePath = filePath.substring(9);
+				console.log(filePath);
+				
+;				str += "<li><img src='/display?fileName=" + filePath + "'></li>";
 			}
 		});
 		
