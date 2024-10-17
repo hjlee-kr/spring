@@ -12,6 +12,25 @@
 $(function(){
 	console.log("jquery 확인");
 	
+	let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)");
+	let maxSize = 1024 * 1024 * 5; //5MB (5242880)
+	
+	function checkExtension(fileName, fileSize) {
+		// 파일 용량 체크
+		if (fileSize > maxSize) {
+			alert("화일용량초과 - 업로드 할 수 없습니다.");
+			return false;
+		}
+		// 확장자 체크
+		if (regex.test(fileName)) {
+			alert("해당 종류의 파일은 업로드 할 수 없습니다.")
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
 	$("#uploadBtn").click(function(){
 		let formData = new FormData();// 가상의 폼
 		
@@ -22,6 +41,10 @@ $(function(){
 		console.log(files);
 		
 		for (let i = 0 ; i < files.length ; i++) {
+			if (!checkExtension(files[i].name, files[i].size)) {
+				return false;
+			}
+			
 			formData.append("uploadFile", files[i]);
 		}
 		
