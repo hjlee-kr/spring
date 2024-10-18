@@ -98,20 +98,13 @@ $(function(){
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">비밀번호 입력 모달 창</h4>
+          <h4 class="modal-title">삭제하시겠습니까?</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <!-- deleto.do 로 이동시 no, pw 가 필요합니다. -->
         <!-- no : hidden으로, pw: 사용자입력으로 세팅 -->
-        <form action="delete.do" method="post">
+        <form action="delete.do" method="get">
         	<input type="hidden" name="no" value="${vo.no }">
-	        <!-- Modal body -->
-	        <div class="modal-body">
-	          <div class="form-group">
-	          	<input class="form-control" type="password"
-	          		name="pw" id="pw">
-	          </div>
-	        </div>
 	        
 	        <!-- Modal footer -->
 	        <div class="modal-footer">

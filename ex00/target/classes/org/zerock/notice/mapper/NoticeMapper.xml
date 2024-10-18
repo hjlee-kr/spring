@@ -64,6 +64,8 @@
   	update notice set
 	  	title = #{title}, content = #{content},
 	  	startDate = #{startDate}, endDate = #{endDate}
+	 where
+	 	no = #{no}
   </update>
   <!-- 5. delete -->
   <delete id="delete">
