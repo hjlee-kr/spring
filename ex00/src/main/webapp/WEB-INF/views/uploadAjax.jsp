@@ -27,7 +27,30 @@
 }
 
 .uploadResult li img {
-	width: 50px;
+	width: 100px;
+}
+
+.bigPictureWrapper {
+	position: absolute;
+	display: none; /* 처음에는 안보여준다. */
+	justify-content: center; /* 가로축 기준 : center */
+	align-items: center; /* 세로축 기준 : center */
+	top: 0%; /* div의 최상단 */
+	width: 100%;
+	height: 100%;
+	background-color: gray;
+	z-index: 100; /* 여러 구성요소 중 화면 중복 우선순위 클수록 위로 */
+	background:rgba(255,255,255,0.5);
+}
+.bigPicture {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bigPicture img {
+	width: 600px;
 }
 
 </style>
@@ -100,7 +123,11 @@ function showUploadFile(list) {
 }
 
 function showImage(fileCallPath) {
-	alert(fileCallPath);
+	//alert(fileCallPath);
+	$(".bigPictureWrapper").css("display", "flex").show();
+	
+	let str = '<img src="/display?fileName=' + fileCallPath + '">';
+	$(".bigPicture").html(str).animate({width:'100%', height:'100%'}, 1000);
 }
 </script>
 
@@ -149,7 +176,11 @@ $(function(){
 		});
 	});// end of $("#uploadBtn").click()
 	
-	
+	// 큰 이미지 클릭시 닫는 처리
+	$(".bigPictureWrapper").on("click", function() {
+		$(".bigPicture").animate({width:'0%', height:'0%'}, 1000);
+		setTimeout(()=>{$(this).hide();}, 1000);
+	});
 });
 </script>
 </head>
@@ -166,6 +197,14 @@ $(function(){
 	<ul class="uploadResult">
 		<li>이미지파일이 없습니다.</li>
 	</ul>
+</div>
+
+<!-- 원본이미지를 보여줄 공간 -->
+<div class="bigPictureWrapper">
+	<div class="bigPicture">
+		<!-- 이 부분을 javascript로 구현 -->
+		
+	</div>
 </div>
 </body>
 </html>
