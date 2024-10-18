@@ -41,7 +41,7 @@ public class MemberController {
 		
 		if (loginVO == null) {
 			rttr.addFlashAttribute("msg",
-				"로그인 정보가 맞지 않습니다. 정보를 확인하시고 다시 시도해 주세요");
+				"로그인 정보가 맞지 않습니다.\n정보를 확인하시고 다시 시도해 주세요");
 			
 			return "redirect:/member/loginForm.do";
 		}
@@ -56,7 +56,19 @@ public class MemberController {
 		return "redirect:/main/main.do";
 	}
 	
-	
+	@GetMapping("/logout.do")
+	public String logout(HttpSession session,
+			RedirectAttributes rttr) {
+		log.info("========= logout.do =============");
+		
+		session.removeAttribute("login");
+		
+		rttr.addFlashAttribute("msg",
+				"로그 아웃이 되었습니다.\n불편한 사항은 질문 답변 게시판을 이용해 주세요");
+		
+		
+		return "redirect:/main/main.do";
+	}
 	
 }
 
