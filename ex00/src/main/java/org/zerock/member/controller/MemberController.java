@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.member.service.MemberService;
@@ -30,6 +31,7 @@ public class MemberController {
 	}
 	
 	// 로그인 처리
+	@PostMapping("/login.do")
 	public String login(LoginVO vo,
 			HttpSession session, RedirectAttributes rttr) {
 		log.info("========= login.do =============");
@@ -51,7 +53,7 @@ public class MemberController {
 			loginVO.getGradeName() + "(으)로 로그인 되었습니다.");
 		
 		
-		return "redirect:/";
+		return "redirect:/main/main.do";
 	}
 	
 	
