@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-- update.jsp -->
 <!DOCTYPE html>
 <html>
@@ -41,7 +42,8 @@ $(function() {
 		<div class="form-group">
 			<label for="no">글번호</label>
 			<!-- name값은 vo객체의 변수이름과 동일하게 사용한다. -->
-			<input class="form-control" name="no" id="no" readonly>
+			<input class="form-control" name="no" id="no"
+				value="${vo.no }" readonly>
 		</div>
 		<div class="form-group">
 			<label for="title">제목</label>
@@ -57,15 +59,17 @@ $(function() {
 		</div>
 		<div class="form-group">
 			<label for="startDate">게시시작일</label>
+			<fmt:formatDate value="${vo.startDate }" pattern="yyyy-MM-dd" var="varStartDate"/>
 			<!-- name값은 vo객체의 변수이름과 동일하게 사용한다. -->
 			<input class="form-control datepicker" 
-				value="${vo.endDate }"
+				value="${varStartDate }"
 				name="startDate" id="startDate" required>
 		</div>
 		<div class="form-group">
 			<label for="endDate">게시종료일</label>
 			<!-- name값은 vo객체의 변수이름과 동일하게 사용한다. -->
-			<input class="form-control datepicker" value="${vo.endDate }"
+			<fmt:formatDate value="${vo.endDate }" pattern="yyyy-MM-dd" var="varEndDate"/>
+			<input class="form-control datepicker" value="${varEndDate }"
 			 name="endDate" id="endDate" required>
 		</div>
 		<!-- form tag에서 <button>에 type이 없으면 submit -->
