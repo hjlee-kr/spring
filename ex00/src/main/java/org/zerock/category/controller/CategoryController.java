@@ -69,7 +69,7 @@ public class CategoryController {
 		// 카테고리 등록 후 메시지 표출
 		rttr.addFlashAttribute("msg", "카테고리가 등록 되었습니다.");
 		
-		return "redirect:list.do";
+		return "redirect:list.do?cate_code1=" + vo.getCate_code1();
 	}
 	
 }

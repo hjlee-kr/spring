@@ -7,6 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <title>카테고리</title>
+<style type="text/css">
+.editDiv {
+	display: none;
+}
+</style>
 
 <script type="text/javascript">
 $(function(){
@@ -23,25 +28,60 @@ $(function(){
 		}
 	});
 	
+	$(".cate_edit").click(function() {
+		//alert("카테고리 대분류 수정");
+		
+		// 대분류 수정,삭제 버튼이 전부 안보이도록 처리
+		$(".editDiv").hide();
+		
+		// edit를 클릭한 대분류만 수정, 삭제 버튼이 보이도록 처리
+		$(this).next(".editDiv").slideDown();
+		
+		return false; // a tag의 페이지 이동 처리 무시
+	});
+	
 	// 대분류 등록(+) 탭 클릭
 	$("#writeBigBtn").click(function(){
 		//alert("대분류 등록");
-		$("#categoryModal").find(".modal-title").text("대분류 등록");
+		return categoryProcess("대분류 등록", 0, 0, "", "write.do", "등록");; // a tag의 페이지 이동 처리를 무시합니다.
+	});
+	
+	// 중분류 등록(+) 버튼 클릭
+	// 현재 active 되어있는 대분류에서 중분류가 추가됩니다.
+	$("#writeMidBtn").click(function(){
+		//alert("중분류 등록");
+		return categoryProcess("중분류 등록", ${cate_code1}, 0, "", "write.do", "등록"); // a tag의 페이지 이동 처리를 무시합니다.
+	});
+	
+	$(".updateBigBtn").click(function() {
 		
-		$("#modalCateCode1").val(0);
-		$("#modalCateCode2").val(0);
+		// 데이터 수집
+		let cate_code1 = $(this).closest("a").data("cate_code1");
+		let cate_name = $(this).closest("a").find(".cate_name").text();
 		
-		$("#modalForm").attr("action", "write.do");
+		//alert("cate_code1 = " + cate_code1 + ", cate_name = " + cate_name);
+		
+		//return false;
+		return categoryProcess("대분류 수정", cate_code1, 0, cate_name, "update.do", "수정");
+	});
+	
+	// 모달창을 보여주기전 세팅하는 함수
+	function categoryProcess(title, cate_code1, cate_code2, cate_name, url, btnName) {
+		$("#categoryModal").find(".modal-title").text(title);
+		
+		$("#modalCateCode1").val(cate_code1);
+		$("#modalCateCode2").val(cate_code2);
+		
+		$("#modalForm").attr("action", url);
+		
+		$("#modalCateName").val(cate_name);
+		
+		$("#submitBtn").text(btnName);
 		
 		$("#categoryModal").modal("show");
 		
 		return false; // a tag의 페이지 이동 처리를 무시합니다.
-	});
-	
-	// 중분류 등록(+) 버튼 클릭
-	$("#writeMidBtn").click(function(){
-		alert("중분류 등록");
-	});
+	}
 });
 </script>
 </head>
@@ -57,8 +97,15 @@ $(function(){
 							<a class="nav-link bigCateData
 								${(vo.cate_code1 == cate_code1)?'active':''}"
 							data-toggle="tab" href="#mid_category"
-							data-cate_code1="${vo.cate_code1}"
-							>${vo.cate_name }</a>
+							data-cate_code1="${vo.cate_code1}">
+								<span class="cate_name">${vo.cate_name }</span>
+								<i class="fa fa-edit cate_edit"></i>
+								<div class="editDiv">
+									<button class="btn btn-success btn-sm updateBigBtn">수정</button>
+									<br>
+									<button class="btn btn-danger btn-sm deleteBigBtn">삭제</button>
+								</div>
+							</a>
 						</li>
 					</c:forEach>
 					<li class="nav-item"><a
