@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.category.service.CategoryService;
 import org.zerock.category.vo.CategoryVO;
 
@@ -54,6 +56,22 @@ public class CategoryController {
 		// "/WEB-INF/views/ + category/list + .jsp"
 		return "category/list";
 	}
+	
+	// 2. 카테고리 등록
+	// 2-1 카테고리 등록 폼
+	// 등록항목이 분류명 밖에 없어서, 리스트에 모달창으로 처리합니다.
+	
+	// 2-1 카테고리 등록 처리
+	@PostMapping("/write.do")
+	public String write(CategoryVO vo, RedirectAttributes rttr) {
+		service.write(vo);
+		
+		// 카테고리 등록 후 메시지 표출
+		rttr.addFlashAttribute("msg", "카테고리가 등록 되었습니다.");
+		
+		return "redirect:list.do";
+	}
+	
 }
 
 
