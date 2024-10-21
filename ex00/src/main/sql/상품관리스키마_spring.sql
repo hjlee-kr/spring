@@ -150,6 +150,36 @@
     VALUES (goods_color_seq.nextval, 'NAVY', 1);
     commit;
     select * from goods_color;
+    
+    -- 상품가격
+    -- 같은 상품에서 판매기간이 겹치면 안된다.
+    -- 현재날짜 (판매중) : 1개
+    INSERT INTO goods_price(goods_price_no, price, discount, discount_rate,
+        saved_rate, delivery_charge, sale_start_date, sale_end_date, goods_no)
+    VALUES(goods_price_seq.nextval, 100000, 0, 0, 0, 0,
+        '2024-10-20', '2024-10-31', 1);
+    -- 지난가격 (여러개) - 판매일은 겹치면 안된다.
+    INSERT INTO goods_price(goods_price_no, price, discount, discount_rate,
+        saved_rate, delivery_charge, sale_start_date, sale_end_date, goods_no)
+    VALUES(goods_price_seq.nextval, 100000, 0, 0, 0, 0,
+        '2024-10-11', '2024-10-19', 1);
+    INSERT INTO goods_price(goods_price_no, price, discount, discount_rate,
+        saved_rate, delivery_charge, sale_start_date, sale_end_date, goods_no)
+    VALUES(goods_price_seq.nextval, 100000, 0, 0, 0, 0,
+        '2024-10-03', '2024-10-10', 1);
+    -- 예약가격 (여러개가능)
+    INSERT INTO goods_price(goods_price_no, price, discount, discount_rate,
+        saved_rate, delivery_charge, sale_start_date, sale_end_date, goods_no)
+    VALUES(goods_price_seq.nextval, 100000, 10000, 0, 0, 0,
+        '2024-11-01', '2024-11-10', 1);
+    INSERT INTO goods_price(goods_price_no, price, discount, discount_rate,
+        saved_rate, delivery_charge, sale_start_date, sale_end_date, goods_no)
+    VALUES(goods_price_seq.nextval, 100000, 0, 50, 0, 0,
+        '2024-11-11', '2024-12-31', 1);
+    commit;
+    select * from goods_price;
+    
+    
 
 
 
