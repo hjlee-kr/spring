@@ -7,15 +7,17 @@
   <select id="list" resultType="org.zerock.category.vo.CategoryVO">
   	select cate_code1, cate_code2, cate_name
   	from category
-  	<!-- 대분류만 가져오기 -->
-  	<!-- if태그안의 조건으로 값을 사용시는 @Param("cate_code1") 으로 정의해 주어야 합니다. -->
-  	<if test="cate_code1 = 0">
-  		cate_code2 = 0
-  	</if>
-  	<!-- 중분류 가져오기 -->
-  	<if test="cate_code1 > 0">
-  		cate_code2 > 0 and cate_code1 = #{cate_code1} 
-  	</if>
+  	<trim prefix="where">
+	  	<!-- 대분류만 가져오기 -->
+	  	<!-- if태그안의 조건으로 값을 사용시는 @Param("cate_code1") 으로 정의해 주어야 합니다. -->
+	  	<if test="cate_code1 == 0">
+	  		cate_code2 = 0
+	  	</if>
+	  	<!-- 중분류 가져오기 -->
+	  	<if test="cate_code1 > 0">
+	  		cate_code2 > 0 and cate_code1 = #{cate_code1} 
+	  	</if>
+  	</trim>
   	order by cate_code1, cate_code2
   </select>
   

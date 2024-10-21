@@ -10,7 +10,7 @@ import org.zerock.category.vo.CategoryVO;
 public interface CategoryMapper {
 
 	// 1. 카테고리 리스트
-	public List<CategoryVO> list(Integer cate_code1);
+	public List<CategoryVO> list(@Param("cate_code1")  Integer cate_code1);
 
 	// 2. 카테고리 등록
 	// 2-1. 대분류 등록

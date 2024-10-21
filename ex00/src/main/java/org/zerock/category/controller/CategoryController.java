@@ -26,9 +26,12 @@ public class CategoryController {
 	// 1. 카테고리 리스트
 	@GetMapping("/list.do")
 	public String list(@RequestParam(defaultValue = "0") Integer cate_code1, Model model) {
-		
+	
+		log.info("cate_code1 = " + cate_code1);
 		// 대분류 가져오기
 		List<CategoryVO> listBig = service.list(0);
+		
+		
 		
 		// 중분류 가져오기
 		// cate_code1 이 없으면 cate_code1 중 제일 작은것 가져와서 처리
@@ -43,6 +46,10 @@ public class CategoryController {
 		// 처리된 값을  model에 담아서 넘긴다.
 		model.addAttribute("listBig", listBig);
 		model.addAttribute("listMid", listMid);
+		
+		model.addAttribute("cate_code1", cate_code1);
+		
+		log.info("cate_code1 = " + cate_code1 );
 		
 		// "/WEB-INF/views/ + category/list + .jsp"
 		return "category/list";

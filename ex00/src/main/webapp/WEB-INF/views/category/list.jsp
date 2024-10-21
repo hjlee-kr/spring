@@ -15,35 +15,29 @@
 			<div class="card-body">
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs">
-					<c:forEach items="${listBig }" var="vo"></c:forEach>
+					<c:forEach items="${listBig }" var="vo">
 						<li class="nav-item">
 							<a class="nav-link
-								${(vo.cate_code1 == param.cate_code1)?'active':''}"
+								${(vo.cate_code1 == cate_code1)?'active':''}"
 							data-toggle="tab" href="#home">${vo.cate_name }</a>
 						</li>
+					</c:forEach>
 				</ul>
 
 				<!-- Tab panes -->
 				<div class="tab-content">
-					<div id="home" class="container tab-pane active">
+					<div id="mid_category" class="container tab-pane active">
 						<br>
-						<h3>HOME</h3>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-							sed do eiusmod tempor incididunt ut labore et dolore magna
-							aliqua.</p>
+						<h3>카테고리 중분류</h3>
+						<ul class="list-group">
+							<c:forEach items="${ listMid}" var="vo">
+								<li class="list-group-item">
+									${vo.cate_name }
+								</li>
+							</c:forEach>
+						</ul>
 					</div>
-					<div id="menu1" class="container tab-pane fade">
-						<br>
-						<h3>Menu 1</h3>
-						<p>Ut enim ad minim veniam, quis nostrud exercitation ullamco
-							laboris nisi ut aliquip ex ea commodo consequat.</p>
-					</div>
-					<div id="menu2" class="container tab-pane fade">
-						<br>
-						<h3>Menu 2</h3>
-						<p>Sed ut perspiciatis unde omnis iste natus error sit
-							voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-					</div>
+					
 				</div>
 
 			</div>
