@@ -7,10 +7,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.zerock.category.vo.CategoryVO;
 import org.zerock.goods.service.GoodsService;
 import org.zerock.goods.vo.GoodsVO;
@@ -55,11 +59,25 @@ public class GoodsController {
 	@GetMapping("/writeForm.do")
 	public String write(Model model) {
 		
-		List<CategoryVO> list = new ArrayList<CategoryVO>();
+		List<CategoryVO> listBig = new ArrayList<CategoryVO>();
 		
+		listBig = service.listCategory(0);
 		
+		model.addAttribute("listBig", listBig);
 		
 		return "goods/write";
+	}
+	
+	// 중분류 가져오기 
+	@GetMapping("/getCategory.do")
+	@ResponseBody
+	public ResponseEntity<List<CategoryVO>> getCategory(Integer cate_code1) {
+		
+		List<CategoryVO> listMid = new ArrayList<CategoryVO>();
+		
+		listMid = service.listCategory(cate_code1);
+		
+		return new ResponseEntity<List<CategoryVO>>(listMid, HttpStatus.OK);
 	}
 	
 }

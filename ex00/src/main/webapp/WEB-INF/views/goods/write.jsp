@@ -30,6 +30,13 @@ $(function(){
 		yearRange : yearRange
 	});
 	
+	
+	$("#cate_code1").change(function(){
+		//alert("대분류 리스트 변경");
+		let cate_code1 = $(this).val();
+		alert("cate_code1 = " + cate_code1);
+	});
+	
 });
 </script>
 </head>
@@ -40,7 +47,15 @@ $(function(){
   		<form action="write.do" method="post" enctype="multipart/form-data">
 			<div class="card-body">
 			<!-- 대분류, 중분류는 java 구현후 작성할 예정 -->
-				<div class="form-group">
+					<div class="form-group">
+						<label for="cate_code1">대분류 : </label>
+						<select class="form-control" id="cate_code1">
+						<c:forEach items="${listBig }" var="vo">
+							<option value="${vo.cate_code1 }">${vo.cate_name }</option>
+						</c:forEach>
+						</select>
+					</div>
+					<div class="form-group">
 					<label for="goods_name">상품명</label>
 					<input class="form-control" id="goods_name"
 						name="goods_name" required>

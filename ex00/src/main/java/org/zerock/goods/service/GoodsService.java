@@ -2,6 +2,7 @@ package org.zerock.goods.service;
 
 import java.util.List;
 
+import org.zerock.category.vo.CategoryVO;
 import org.zerock.goods.vo.GoodsVO;
 import org.zerock.util.page.PageObject;
 
@@ -9,6 +10,10 @@ public interface GoodsService {
 
 	// 상품 리스트
 	public List<GoodsVO> list(PageObject pageObject);
+	
+	// 대분류 / 중분류 리스트 가져오기
+	public List<CategoryVO> listCategory (Integer cate_code1);
+	
 	// 상품 보기
 	public GoodsVO view(Long goods_no);
 	// 상품 등록

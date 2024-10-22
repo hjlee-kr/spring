@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.zerock.category.vo.CategoryVO;
 import org.zerock.goods.mapper.GoodsMapper;
 import org.zerock.goods.vo.GoodsVO;
 import org.zerock.util.page.PageObject;
@@ -50,6 +51,12 @@ public class GoodsServiceImpl implements GoodsService {
 	public Integer delete(GoodsVO vo) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<CategoryVO> listCategory(Integer cate_code1) {
+		// TODO Auto-generated method stub
+		return mapper.getCategory(cate_code1);
 	}
 
 }
