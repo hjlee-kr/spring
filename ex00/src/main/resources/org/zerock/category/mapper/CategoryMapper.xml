@@ -54,7 +54,9 @@
 	<delete id="delete">
 		delete from category
 		where cate_code1 = #{cate_code1}
-  			and cate_code2 = #{cate_code2}	
+		<if test="cate_code2 != 0">
+  			and cate_code2 = #{cate_code2}
+  		</if>	
 	</delete>
 
 

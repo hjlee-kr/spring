@@ -63,7 +63,8 @@ $(function(){
 		//alert("cate_code1 = " + cate_code1 + ", cate_name = " + cate_name);
 		
 		//return false;
-		return categoryProcess("대분류 수정", cate_code1, 0, cate_name, "update.do", "수정");
+		return categoryProcess("대분류 수정", cate_code1, 0,
+				cate_name, "update.do", "수정");
 	});
 	
 	// 중분류 수정 버튼 클릭
@@ -83,9 +84,29 @@ $(function(){
 	
 	// 대분류 삭제 버튼 이벤트
 	$(".deleteBigBtn").click(function() {
-		alert("대분류 삭제 버튼");
+		//alert("대분류 삭제 버튼");
+		// 데이터 수집
+		let cate_code1 = $(this).closest("a").data("cate_code1");
+		let cate_name = $(this).closest("a").find(".cate_name").text();
+		
+		return categoryProcess("대분류 삭제", cate_code1, 0,
+				cate_name, "delete.do", "삭제"); 
 	});
 	
+	// 중분류 삭제 버튼 클릭
+	$(".deleteMidBtn").click(function() {
+		// 데이터 수집
+		let cate_code1 = $(this).closest("li").data("cate_code1");
+		let cate_code2 = $(this).closest("li").data("cate_code2");
+		let cate_name = $(this).closest("li").find(".midCateName").text();
+		
+	//	console.log("cate_code1 = " + cate_code1 +
+	//			", cate_code2 = " + cate_code2 +
+	//			", cate_name = " + cate_name);
+		
+		return categoryProcess("중분류 삭제", cate_code1,
+				cate_code2, cate_name, "delete.do", "삭제");
+	});
 	
 	// 모달창을 보여주기전 세팅하는 함수
 	function categoryProcess(title, cate_code1, cate_code2, cate_name, url, btnName) {
@@ -99,6 +120,17 @@ $(function(){
 		$("#modalCateName").val(cate_name);
 		
 		$("#submitBtn").text(btnName);
+		
+		$("#submitBtn").removeClass("btn-primary");
+		$("#submitBtn").removeClass("btn-success");
+		$("#submitBtn").removeClass("btn-danger");
+		if (btnName == "수정") {
+			$("#submitBtn").addClass("btn-success");
+		} else if (btnName == "삭제") {
+			$("#submitBtn").addClass("btn-danger");
+		} else {
+			$("#submitBtn").addClass("btn-primary");
+		}
 		
 		$("#categoryModal").modal("show");
 		

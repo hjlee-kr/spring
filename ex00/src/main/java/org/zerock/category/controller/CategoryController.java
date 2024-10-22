@@ -89,6 +89,25 @@ public class CategoryController {
 		
 		return "redirect:list.do?cate_code1=" + vo.getCate_code1();
 	}
+	
+	// 카테고리 삭제 처리
+	@PostMapping("/delete.do")
+	public String delete(CategoryVO vo, RedirectAttributes rttr) {
+		
+		Integer result = service.delete(vo);
+		
+		if (result >= 1) {
+			// 대분류가 삭제될때는 중분류도 같이 삭제가 되어서
+			// 처리결과가 1이상의 값이 리턴됩니다.
+			rttr.addFlashAttribute("msg", "카테고리가 삭제되었습니다.");
+		}
+		else {
+			rttr.addFlashAttribute("msg", "카테고리가 삭제되지 않았습니다.");
+		}
+		
+		
+		return "redirect:list.do?cate_code1=" + vo.getCate_code1();
+	}
 }
 
 
