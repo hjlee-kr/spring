@@ -81,6 +81,12 @@ $(function(){
 				cate_code2, cate_name, "update.do", "수정");
 	});
 	
+	// 대분류 삭제 버튼 이벤트
+	$(".deleteBigBtn").click(function() {
+		alert("대분류 삭제 버튼");
+	});
+	
+	
 	// 모달창을 보여주기전 세팅하는 함수
 	function categoryProcess(title, cate_code1, cate_code2, cate_name, url, btnName) {
 		$("#categoryModal").find(".modal-title").text(title);
