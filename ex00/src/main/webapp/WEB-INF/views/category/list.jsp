@@ -53,6 +53,7 @@ $(function(){
 		return categoryProcess("중분류 등록", ${cate_code1}, 0, "", "write.do", "등록"); // a tag의 페이지 이동 처리를 무시합니다.
 	});
 	
+	// 대분류 수정 버튼 클릭
 	$(".updateBigBtn").click(function() {
 		
 		// 데이터 수집
@@ -63,6 +64,21 @@ $(function(){
 		
 		//return false;
 		return categoryProcess("대분류 수정", cate_code1, 0, cate_name, "update.do", "수정");
+	});
+	
+	// 중분류 수정 버튼 클릭
+	$(".updateMidBtn").click(function() {
+		// 데이터 수집
+		let cate_code1 = $(this).closest("li").data("cate_code1");
+		let cate_code2 = $(this).closest("li").data("cate_code2");
+		let cate_name = $(this).closest("li").find(".midCateName").text();
+		
+	//	console.log("cate_code1 = " + cate_code1 +
+	//			", cate_code2 = " + cate_code2 +
+	//			", cate_name = " + cate_name);
+		
+		return categoryProcess("중분류 수정", cate_code1,
+				cate_code2, cate_name, "update.do", "수정");
 	});
 	
 	// 모달창을 보여주기전 세팅하는 함수
@@ -127,8 +143,13 @@ $(function(){
 						</h3>
 						<ul class="list-group">
 							<c:forEach items="${ listMid}" var="vo">
-								<li class="list-group-item">
-									${vo.cate_name }
+								<li class="list-group-item" data-cate_code1="${vo.cate_code1}"
+									data-cate_code2="${vo.cate_code2 }">
+									<span class="float-right">
+										<button class="btn btn-success updateMidBtn">수정</button>
+										<button class="btn btn-danger deleteMidBtn">삭제</button>
+									</span>
+									<span class="midCateName">${vo.cate_name }</span>
 								</li>
 							</c:forEach>
 						</ul>
