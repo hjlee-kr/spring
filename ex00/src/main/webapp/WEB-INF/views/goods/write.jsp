@@ -34,7 +34,32 @@ $(function(){
 	$("#cate_code1").change(function(){
 		//alert("대분류 리스트 변경");
 		let cate_code1 = $(this).val();
-		alert("cate_code1 = " + cate_code1);
+		//alert("cate_code1 = " + cate_code1);
+		
+
+		$.ajax({
+			type: "get",
+			url: "/goods/getCategory.do?cate_code1=" + cate_code1,
+			//dataType: "json",
+			success: function(result, status, xhr) {
+				//alert("중분류 가져오기 성공함수");
+				console.log("==== 중분류데이터 ====");
+				console.log("result : " + JSON.stringify(result));
+				console.log("status : " + status);
+				console.log("xhr : " + xhr);
+
+				result.forEach(function(item){
+					console.log(item.cate_name);
+				});
+			},
+			error: function(xhr, status, err) {
+				console.log("중분류 가져오기 오류 *************");
+				console.log("xhr : " + xhr);
+				console.log("status : " + status);
+				console.log("err : " + err);
+			}
+		});
+
 	});
 	
 });

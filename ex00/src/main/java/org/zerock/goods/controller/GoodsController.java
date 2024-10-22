@@ -1,19 +1,23 @@
 package org.zerock.goods.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.zerock.category.vo.CategoryVO;
 import org.zerock.goods.service.GoodsService;
@@ -69,7 +73,8 @@ public class GoodsController {
 	}
 	
 	// 중분류 가져오기 
-	@GetMapping("/getCategory.do")
+	@GetMapping(value = "/getCategory.do",
+			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<CategoryVO>> getCategory(Integer cate_code1) {
 		
