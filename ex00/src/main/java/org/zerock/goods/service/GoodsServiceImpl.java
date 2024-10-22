@@ -23,7 +23,9 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public List<GoodsVO> list(PageObject pageObject) {
 		// TODO Auto-generated method stub
-		return null;
+		pageObject.setTotalRow(mapper.getTotalRow(pageObject));
+		
+		return mapper.list(pageObject);
 	}
 
 	@Override

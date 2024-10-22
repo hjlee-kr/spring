@@ -7,8 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>이미지 게시판 리스트</title>
-<script type="text/javascript" src="boardInputUtil.js"></script>
+<title>상품 리스트</title>
 
 <style type="text/css">
 .imageDiv {
@@ -90,7 +89,7 @@ $(function(){
 <body>
 
 <div class="container p-3 my-3">
-	<h1><i class="fa fa-align-justify"></i> 이미지 게시판 리스트</h1>
+	<h1><i class="fa fa-align-justify"></i> 상품 리스트</h1>
 	<form action="list.do" id="searchForm">
 		<div class="row">
 			<div class="col-md-8">
@@ -138,13 +137,13 @@ $(function(){
 		<div class="row">
 			<!-- 이미지 list의 데이터가 있는 만큼 표시하는 처리 시작 -->
 			<c:forEach items="${list }" var="vo" varStatus="vs">
-				<!-- 줄바꿈처리 - 3개를 표시하면 줄을 바꾼다. -->
-				<c:if test="${(vs.index != 0) && (vs.index%3 == 0) }">
+				<!-- 줄바꿈처리 - 4개를 표시하면 줄을 바꾼다. -->
+				<c:if test="${(vs.index != 0) && (vs.index%4 == 0) }">
 					${"</div>"}
 					${"<div class='row'>"}
 				</c:if>
 				<!-- 데이터 표시 시작 -->
-				<div class="col-md-4 dataRow">
+				<div class="col-md-3 dataRow">
 					<div class="card" style="width:100%">
 						<div class="imageDiv align-content-center text-center">
 					  	<img class="card-img-top" src="${vo.fileName }" alt="Card image">
@@ -169,13 +168,13 @@ $(function(){
 		</div>
 	</c:if><!-- 데이터 존재했을때 처리 끝 -->
 	
-	<c:if test="${!empty login }">
+<%-- 	<c:if test="${!empty login }"> --%>
 		<!-- 로그인이 되어있으면 등록버튼이 보이게 처리 -->
 		<div>
 			<a href="writeForm.do?perPageNum="${pageObject.perPageNum }"
 				class="btn btn-primary">등록</a>
 		</div>
-	</c:if>
+<%-- 	</c:if> --%>
 
 </div>
 </body>

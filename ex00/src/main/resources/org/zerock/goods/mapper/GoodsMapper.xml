@@ -3,7 +3,63 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   <mapper namespace="org.zerock.goods.mapper.GoodsMapper">
+  	<!-- 상품 리스트 -->
+  	<select id="list" resultType="org.zerock.goods.vo.GoodsVO">
+  		select
+	  		goods_no, goods_name, price, discount,
+	  		discount_rate, saved_rate, image_name
+  		from
+  		(
+	  		select
+	  			rownum rnum, goods_no, goods_name, price, discount,
+	  			discount_rate, saved_rate, image_name
+	  		from
+		  	(
+		  		select
+		  			g.goods_no, g.goods_name, p.price, p.discount,
+		  			p.discount_rate, p.saved_rate, g.image_name
+		  		from
+		  			goods g, goods_price p
+		  		where
+		  		(
+		  			<!-- 일반조건 -->
+		  			<!-- 현재 판매되고 있는 상품 -->
+		  			<!-- 아래 CDATA를 사용한 태그는 안에 내용이 문자열로 DB서버에 전달 -->
+		  			<![CDATA[
+		  			sale_start_date <= trunc(sysDate) and
+		  			trunc(sysDate) <= sale_end_date
+		  			]]>
+		  		)
+		  		and
+		  		(
+		  			<!-- 조인 조건 -->
+		  			g.goods_no = p.goods_no
+		  		)
+		  	)
+	  	)
+	  	where rnum between #{startRow} and #{endRow}
+  	</select>
   	
+  	<!-- 페이지 처리를 위한 getTotalRow -->
+  	<select id="getTotalRow" resultType="Long">
+  		select count(*)
+  		from goods g, goods_price p
+  		where
+  		(
+		  	<!-- 일반조건 -->
+		  	<!-- 현재 판매되고 있는 상품 -->
+		  	<!-- 아래 CDATA를 사용한 태그는 안에 내용이 문자열로 DB서버에 전달 -->
+		  	<![CDATA[
+		  	sale_start_date <= trunc(sysDate) and
+		  	trunc(sysDate) <= sale_end_date
+		  	]]>
+		)
+		and
+		(
+			<!-- 조인 조건 -->
+			g.goods_no = p.goods_no
+		)
+  	</select>
 
   </mapper>
   
