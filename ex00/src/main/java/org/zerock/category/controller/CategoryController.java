@@ -61,7 +61,7 @@ public class CategoryController {
 	// 2-1 카테고리 등록 폼
 	// 등록항목이 분류명 밖에 없어서, 리스트에 모달창으로 처리합니다.
 	
-	// 2-1 카테고리 등록 처리
+	// 2-2 카테고리 등록 처리
 	@PostMapping("/write.do")
 	public String write(CategoryVO vo, RedirectAttributes rttr) {
 		service.write(vo);
@@ -72,6 +72,23 @@ public class CategoryController {
 		return "redirect:list.do?cate_code1=" + vo.getCate_code1();
 	}
 	
+	// 3. 카테고리 수정
+	// 3-1. 카테고리 수정폼 - 리스트 모달창이용
+	// 3-2. 카테고리 수정처리
+	@PostMapping("/update.do")
+	public String update(CategoryVO vo, RedirectAttributes rttr) {
+		
+		Integer result = service.update(vo);
+		
+		if (result == 1) {
+			rttr.addFlashAttribute("msg", "카테고리가 수정되었습니다.");
+		}
+		else {
+			rttr.addFlashAttribute("msg", "카테고리가 수정되지 않았습니다.");
+		}
+		
+		return "redirect:list.do?cate_code1=" + vo.getCate_code1();
+	}
 }
 
 
