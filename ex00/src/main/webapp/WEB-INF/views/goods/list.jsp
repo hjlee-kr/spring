@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="pageNav" tagdir="/WEB-INF/tags" %>
 <!-- 데이터는 DispatcherServlet에 담겨있다(request) -->
 <!DOCTYPE html>
@@ -146,16 +147,26 @@ $(function(){
 				<div class="col-md-3 dataRow">
 					<div class="card" style="width:100%">
 						<div class="imageDiv align-content-center text-center">
-					  	<img class="card-img-top" src="${vo.fileName }" alt="Card image">
+					  	<img class="card-img-top" src="${vo.image_name }" alt="Card image">
 					  </div>
 					  <div class="card-body title">
-					    <h4 class="card-title">
-					    	<span class="float-right">${vo.writeDate }</span>
-					    	${vo.name }(${vo.id })
-					    </h4>
 					    <p class="card-text">
-					    	<span class="no">${vo.no }</span>.${vo.title }
-							</p>
+					    	<div>
+								상품번호 : ${vo.goods_no }
+					    	</div>
+					    	<div>
+						    	상품명 : ${vo.goods_name }
+					    	</div>
+					    	<div>
+						    	정가 : <fmt:formatNumber value="${vo.price }" /> 원
+					    	</div>
+					    	<div>
+					    		할인가 : <fmt:formatNumber value="${vo.sale_price }" /> 원
+					    	</div>
+					    	<div>
+					    		적립율 : ${vo.saved_rate } 
+					    	</div>
+						</p>
 					  </div>
 					</div><!-- end of card -->
 				</div>

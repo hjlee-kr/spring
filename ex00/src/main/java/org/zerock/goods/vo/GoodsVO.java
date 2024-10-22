@@ -25,6 +25,18 @@ public class GoodsVO {
 	private Integer delivery_charge;
 	private Date sale_start_date;
 	private Date sale_end_date;
+	
+	// 실제 판매가 getter 만들기 -> jsp ${vo.sale_price}
+	public Integer getSale_price() {
+		// 할인가가 있는 경우 처리 : 정가 - 할인가
+		if (discount != 0) {
+			return price - discount;
+		}
+		// 할인율이 있는 경우 : 정가 - (정가 * 할인율 / 100)
+		// + 할인율이 없으면 정가로 리턴한다.
+		// 100미만 절삭 처리 : 가격 / 100 * 100
+		return (price - (price * discount_rate / 100)) / 100 * 100;
+	}
 }
 
 
