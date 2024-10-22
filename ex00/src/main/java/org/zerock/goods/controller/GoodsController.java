@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.zerock.category.vo.CategoryVO;
 import org.zerock.goods.service.GoodsService;
 import org.zerock.goods.vo.GoodsVO;
 import org.zerock.util.page.PageObject;
@@ -50,6 +51,16 @@ public class GoodsController {
 		return "goods/list";
 	}
 	
+	// 상품 등록 폼
+	@GetMapping("/writeForm.do")
+	public String write(Model model) {
+		
+		List<CategoryVO> list = new ArrayList<CategoryVO>();
+		
+		
+		
+		return "goods/write";
+	}
 	
 }
 
