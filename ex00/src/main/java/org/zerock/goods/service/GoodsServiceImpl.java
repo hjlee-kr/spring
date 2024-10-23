@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.category.vo.CategoryVO;
 import org.zerock.goods.mapper.GoodsMapper;
+import org.zerock.goods.vo.GoodsColorVO;
+import org.zerock.goods.vo.GoodsImageVO;
+import org.zerock.goods.vo.GoodsPriceVO;
+import org.zerock.goods.vo.GoodsSizeVO;
 import org.zerock.goods.vo.GoodsVO;
 import org.zerock.util.page.PageObject;
 
@@ -44,12 +48,43 @@ public class GoodsServiceImpl implements GoodsService {
 			List<String> color_names) {
 		// TODO Auto-generated method stub
 		// 1. goods 테이블에 상품등록 (필수)
+		mapper.write(vo);
 		// 2. 등록한 goods테이블의 goods_no를 가져온다.
+		Long goods_no = mapper.getGoodsNo();
 		// goods_price 테이블에 가격정보등록 (필수)
-		// goods_image 테이블에 등록 (선택: imageFileName에 자료가 있으면)
+		//vo.setGoods_no(goods_no);
+		GoodsPriceVO priceVO = new GoodsPriceVO();
+		priceVO.setGoods_no(goods_no);
+		priceVO.setPrice(vo.getPrice());
+		priceVO.setDiscount(vo.getDiscount());
+		priceVO.setDiscount_rate(vo.getDiscount_rate());
+		priceVO.setSaved_rate(vo.getSaved_rate());
+		priceVO.setDelivery_charge(vo.getDelivery_charge());
+		priceVO.setSale_start_date(vo.getSale_start_date());
+		priceVO.setSale_end_date(vo.getSale_end_date());
+		mapper.writePrice(priceVO);
+		// goods_image 테이블에 등록 (선택: imageFileNames에 자료가 있으면)
+		for (String imageName : imageFileNames) {
+			GoodsImageVO imageVO = new GoodsImageVO();
+			imageVO.setGoods_no(goods_no);
+			imageVO.setImage_name(imageName);
+			mapper.writeImage(imageVO);
+		}
 		// goods_size 테이블에 등록 (선택: size_names에 자료가 있으면)
+		for (String sizeName : size_names) {
+			GoodsSizeVO sizeVO = new GoodsSizeVO();
+			sizeVO.setGoods_no(goods_no);
+			sizeVO.setSize_name(sizeName);
+			mapper.writeSize(sizeVO);
+		}
 		// goods_color 테이블에 등록 (선택: color_names에 자료가 있으면)
-		return null;
+		for (String colorName : color_names) {
+			GoodsColorVO colorVO = new GoodsColorVO();
+			colorVO.setGoods_no(goods_no);
+			colorVO.setColor_name(colorName);
+			mapper.writeColor(colorVO);
+		}
+		return 1;
 	}
 
 	@Override

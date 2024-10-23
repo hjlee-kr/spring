@@ -28,6 +28,7 @@ import org.zerock.goods.vo.GoodsColorVO;
 import org.zerock.goods.vo.GoodsImageVO;
 import org.zerock.goods.vo.GoodsSizeVO;
 import org.zerock.goods.vo.GoodsVO;
+import org.zerock.util.file.FileUtil;
 import org.zerock.util.page.PageObject;
 
 import lombok.extern.log4j.Log4j;
@@ -40,6 +41,10 @@ public class GoodsController {
 	@Autowired
 	@Qualifier("goodsServiceImpl")
 	private GoodsService service;
+	
+	// 파일이 저장될 경로
+	String path = "/upload/goods";
+	
 	
 	@GetMapping("/list.do")
 	public String list(Model model, HttpServletRequest request) {
@@ -106,8 +111,9 @@ public class GoodsController {
 			// 옵션 - 사이즈, 색상
 			@RequestParam("size_names") ArrayList<String> size_names,
 			@RequestParam("color_names") ArrayList<String> color_names,
+			HttpServletRequest request,
 			RedirectAttributes rttr
-			) {
+			) throws Exception {
 		
 		log.info("============write.do=================");
 		log.info(vo);
@@ -122,16 +128,18 @@ public class GoodsController {
 		
 		// 추가이미지, size, color를 담을 리스트들을 만든다.
 		
-		vo.setImage_name(imageMain.getOriginalFilename());
+		vo.setImage_name(FileUtil.upload(path, imageMain, request));
 		
 		List<String> imageFileNames = new ArrayList<String>();
 		for (MultipartFile file : imageFiles) {
-			imageFileNames.add(file.getOriginalFilename());
+			imageFileNames.add(FileUtil.upload(path, file, request));
 		}
-		service.write(vo, imageFileNames, size_names, color_names);
+		Integer result = service.write(vo, imageFileNames, size_names, color_names);
 		
 		return "redirect:list.do";
 	}
+	
+
 }
 
 
