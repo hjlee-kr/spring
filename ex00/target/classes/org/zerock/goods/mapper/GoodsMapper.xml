@@ -101,7 +101,7 @@
 			sale_start_date, sale_end_date, goods_no)
 		values
 			(goods_price_seq.nextval, #{price},
-			#{discount}, #{discount_rate}, #{saved_rate, #{delivery_charge},
+			#{discount}, #{discount_rate}, #{saved_rate}, #{delivery_charge},
 			#{sale_start_date}, #{sale_end_date}, #{goods_no})
 	</insert>
 	<insert id="writeImage">
