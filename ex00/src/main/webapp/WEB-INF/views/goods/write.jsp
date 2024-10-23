@@ -70,24 +70,34 @@ $(function(){
 
 	});
 	
+	let colorTagCnt =1;
 	
 	
-	$("#addColorBtn").click(function(){
+	$("#appendColorBtn").click(function(){
 		//alert("add color button");
+		
+		if (colorTagCnt >= 5) return;
+		
 		let addColorTag = "";
 		
 		addColorTag += '<div class="input-group mb-3">';
 		addColorTag += '<input type="text" class="form-control" name="color_name">';
 		addColorTag += '<div class="input-group-append">';
-		addColorTag += '<button class="btn btn-danger" type="button">';
+		addColorTag += '<button class="btn btn-danger removeColorBtn" type="button">';
 		addColorTag += '<i class="fa fa-close"></i>';
 		addColorTag += '</button>';
 		addColorTag += '</div>';
 		addColorTag += '</div>';
 		
 		$(".colorForm").append(addColorTag);
+		colorTagCnt++;
 	});
 	
+	$(".colorForm").on("click", ".removeColorBtn", function(){
+		//alert("remove color button");
+		$(this).closest(".input-group").remove();
+		colorTagCnt--;
+	});
 	
 });
 </script>
@@ -185,17 +195,12 @@ $(function(){
 						<legend class="w-auto px-2">
 							<b style="font-size: 14px">[Color]</b>
 							<button class="btn btn-primary btn-sm"
-							id="addColorBtn" type="button">
+							id="appendColorBtn" type="button">
 								addColor
 							</button>
 						</legend>
 						<div class="input-group mb-3">
 							<input type="text" class="form-control" name="color_name">
-							<div class="input-group-append">
-								<button class="btn btn-danger" type="button">
-									<i class="fa fa-close"></i>
-								</button>
-							</div>
 						</div>
 
 					</fieldset>
