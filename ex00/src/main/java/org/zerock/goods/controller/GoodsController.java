@@ -61,13 +61,17 @@ public class GoodsController {
 	
 	// 상품 등록 폼
 	@GetMapping("/writeForm.do")
-	public String write(Model model) {
+	public String writeForm(Model model) {
 		
 		List<CategoryVO> listBig = new ArrayList<CategoryVO>();
+		List<CategoryVO> listMid = new ArrayList<CategoryVO>();
 		
 		listBig = service.listCategory(0);
+		// 대분류 첫번째에 있는 중분류를 가져온다.
+		listMid = service.listCategory(listBig.get(0).getCate_code1());
 		
 		model.addAttribute("listBig", listBig);
+		model.addAttribute("listMid", listMid);
 		
 		return "goods/write";
 	}

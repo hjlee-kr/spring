@@ -47,10 +47,18 @@ $(function(){
 				console.log("result : " + JSON.stringify(result));
 				console.log("status : " + status);
 				console.log("xhr : " + xhr);
+				
+				let str = "";
 
 				result.forEach(function(item){
 					console.log(item.cate_name);
+					str += '<option value="' + item.cate_code2 + '">';
+					str += item.cate_name + '</option>\n';
 				});
+				
+				console.log(str);
+				
+				$("#cate_code2").html(str);
 			},
 			error: function(xhr, status, err) {
 				console.log("중분류 가져오기 오류 *************");
@@ -61,6 +69,25 @@ $(function(){
 		});
 
 	});
+	
+	
+	
+	$("#addColorBtn").click(function(){
+		//alert("add color button");
+		let addColorTag = "";
+		
+		addColorTag += '<div class="input-group mb-3">';
+		addColorTag += '<input type="text" class="form-control" name="color_name">';
+		addColorTag += '<div class="input-group-append">';
+		addColorTag += '<button class="btn btn-danger" type="button">';
+		addColorTag += '<i class="fa fa-close"></i>';
+		addColorTag += '</button>';
+		addColorTag += '</div>';
+		addColorTag += '</div>';
+		
+		$(".colorForm").append(addColorTag);
+	});
+	
 	
 });
 </script>
@@ -73,10 +100,20 @@ $(function(){
 			<div class="card-body">
 			<!-- 대분류, 중분류는 java 구현후 작성할 예정 -->
 					<div class="form-group">
-						<label for="cate_code1">대분류 : </label>
-						<select class="form-control" id="cate_code1">
+						<label for="cate_code1">대분류</label>
+						<select class="form-control"
+							id="cate_code1" name="cate_code1">
 						<c:forEach items="${listBig }" var="vo">
 							<option value="${vo.cate_code1 }">${vo.cate_name }</option>
+						</c:forEach>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="cate_code2">중분류</label>
+						<select class="form-control"
+							id="cate_code2" name="cate_code2">
+						<c:forEach items="${listMid }" var="vo">
+							<option value="${vo.cate_code2 }">${vo.cate_name }</option>
 						</c:forEach>
 						</select>
 					</div>
@@ -140,6 +177,44 @@ $(function(){
 					<input class="form-control datepicker"
 						id="sale_end_date" name="sale_end_date">
 				</div>
+				<fieldset class="border p-4">
+					<legend class="w-auto px-2">
+						<b style="font-size: 14px">[Option]</b>
+					</legend>
+					<fieldset class="border p-4 colorForm">
+						<legend class="w-auto px-2">
+							<b style="font-size: 14px">[Color]</b>
+							<button class="btn btn-primary btn-sm"
+							id="addColorBtn" type="button">
+								addColor
+							</button>
+						</legend>
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" name="color_name">
+							<div class="input-group-append">
+								<button class="btn btn-danger" type="button">
+									<i class="fa fa-close"></i>
+								</button>
+							</div>
+						</div>
+
+					</fieldset>
+					<fieldset class="border p-4">
+						<legend class="w-auto px-2">
+							<b style="font-size: 14px">[Size]</b>
+						</legend>
+					
+					
+					</fieldset>
+				
+				</fieldset>
+				<fieldset class="border p-4">
+					<legend class="w-auto px-2">
+						<b style="font-size: 14px">[추가이미지]</b>
+					</legend>
+				
+				
+				</fieldset>
 			</div>
 			<div class="card-footer">
 				<button class="btn btn-primary">등록</button>
