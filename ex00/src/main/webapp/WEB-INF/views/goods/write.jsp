@@ -31,6 +31,22 @@ $(function(){
 	});
 	
 	
+	// 생산일은 현재날짜 이전만 입력가능
+	$("#product_date").datepicker("option", {"maxDate" : new Date()});
+	// 판매시작일과 종료일은 현재날짜 이후만 입력가능
+	$("#sale_start_date, #sale_end_date")
+		.datepicker("option", {"minDate" : new Date()});
+	
+	// 판매시작일이 판매종료일보다 앞에 있도록 합니다.
+	$("#sale_start_date").change(function(){
+		$("#sale_end_date").datepicker("option", "minDate", $(this).val())
+	});
+	$("#sale_end_date").change(function(){
+		$("#sale_start_date").datepicker("option", "maxDate", $(this).val());
+	});
+	
+	
+	
 	$("#cate_code1").change(function(){
 		//alert("대분류 리스트 변경");
 		let cate_code1 = $(this).val();
@@ -81,7 +97,7 @@ $(function(){
 		let addColorTag = "";
 		
 		addColorTag += '<div class="input-group mb-3">';
-		addColorTag += '<input type="text" class="form-control" name="color_name">';
+		addColorTag += '<input type="text" class="form-control" name="color_names">';
 		addColorTag += '<div class="input-group-append">';
 		addColorTag += '<button class="btn btn-danger removeColorBtn" type="button">';
 		addColorTag += '<i class="fa fa-close"></i>';
@@ -110,7 +126,7 @@ $(function(){
 		let addSizeTag = "";
 		
 		addSizeTag += '<div class="input-group mb-3">';
-		addSizeTag += '<input type="text" class="form-control" name="size_name">';
+		addSizeTag += '<input type="text" class="form-control" name="size_names">';
 		addSizeTag += '<div class="input-group-append">';
 		addSizeTag += '<button class="btn btn-danger removeSizeBtn" type="button">';
 		addSizeTag += '<i class="fa fa-close"></i>';
@@ -191,9 +207,10 @@ $(function(){
 						name="goods_name" required>
 				</div>
 				<div class="form-group">
-					<label for="image_name">상품사진</label>
+					<!-- 파일로 넘어가는 데이터는 GoodsVO 객체의 이름과 다른이름을 사용해야 합니다. -->
+					<label for="imageMain">대표이미지</label>
 					<input type="file" class="form-control"
-						id="image_name" name="image_name" required>
+						id="imageMain" name="imageMain" required>
 				</div>
 				<div class="form-group">
 					<label for="content">상품설명</label>
@@ -207,7 +224,7 @@ $(function(){
 				</div>
 				<div class="form-group">
 					<label for="product_date">생산일</label>
-					<input class="form-control datepicker"
+					<input class="form-control datepicker" readonly
 						id="product_date" name="product_date">
 				</div>
 				<div class="form-group">
@@ -218,31 +235,31 @@ $(function(){
 				<div class="form-group">
 					<label for="discount">할인금액</label>
 					<input class="form-control" id="discount"
-						name="discount">
+						name="discount" value="0">
 				</div>
 				<div class="form-group">
 					<label for="discount_rate">할인율</label>
 					<input class="form-control" id="discount_rate"
-						name="discount_rate">
+						name="discount_rate" value="0">
 				</div>
 				<div class="form-group">
 					<label for="saved_rate">적립율</label>
 					<input class="form-control" id="saved_rate"
-						name="saved_rate">
+						name="saved_rate" value="0">
 				</div>
 				<div class="form-group">
 					<label for="delivery_charge">배송료</label>
 					<input class="form-control" id="delivery_charge"
-						name="delivery_charge">
+						name="delivery_charge" value="0">
 				</div>
 				<div class="form-group">
 					<label for="sale_start_date">판매시작일</label>
-					<input class="form-control datepicker"
+					<input class="form-control datepicker" readonly
 						id="sale_start_date" name="sale_start_date">
 				</div>
 				<div class="form-group">
 					<label for="sale_end_date">판매종료일</label>
-					<input class="form-control datepicker"
+					<input class="form-control datepicker" readonly
 						id="sale_end_date" name="sale_end_date">
 				</div>
 				<fieldset class="border p-4">
@@ -258,7 +275,7 @@ $(function(){
 							</button>
 						</legend>
 						<div class="input-group mb-3">
-							<input type="text" class="form-control" name="color_name">
+							<input type="text" class="form-control" name="color_names">
 						</div>
 
 					</fieldset>
@@ -271,7 +288,7 @@ $(function(){
 							</button>
 						</legend>
 						<div class="input-group mb-3">
-							<input type="text" class="form-control" name="size_name">
+							<input type="text" class="form-control" name="size_names">
 						</div>
 					</fieldset>
 				

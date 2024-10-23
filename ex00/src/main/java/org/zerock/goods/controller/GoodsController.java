@@ -16,11 +16,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.category.vo.CategoryVO;
 import org.zerock.goods.service.GoodsService;
+import org.zerock.goods.vo.GoodsColorVO;
+import org.zerock.goods.vo.GoodsImageVO;
+import org.zerock.goods.vo.GoodsSizeVO;
 import org.zerock.goods.vo.GoodsVO;
 import org.zerock.util.page.PageObject;
 
@@ -89,6 +95,43 @@ public class GoodsController {
 		return new ResponseEntity<List<CategoryVO>>(listMid, HttpStatus.OK);
 	}
 	
+	// 상품 등록 처리
+	@PostMapping("/write.do")
+	public String write(
+			GoodsVO vo,
+			// 대표이미지
+			MultipartFile imageMain,
+			// 추가이미지
+			@RequestParam("imageFiles") ArrayList<MultipartFile> imageFiles,
+			// 옵션 - 사이즈, 색상
+			@RequestParam("size_names") ArrayList<String> size_names,
+			@RequestParam("color_names") ArrayList<String> color_names,
+			RedirectAttributes rttr
+			) {
+		
+		log.info("============write.do=================");
+		log.info(vo);
+		log.info("대표이미지 : " + imageMain.getOriginalFilename());
+		log.info("<<추가이미지>>");
+		for (MultipartFile file : imageFiles) {
+			log.info(file.getOriginalFilename());
+		}
+		log.info("size : " + size_names);
+		log.info("color : " + color_names);
+		log.info("=====================================");
+		
+		// 추가이미지, size, color를 담을 리스트들을 만든다.
+		
+		vo.setImage_name(imageMain.getOriginalFilename());
+		
+		List<String> imageFileNames = new ArrayList<String>();
+		for (MultipartFile file : imageFiles) {
+			imageFileNames.add(file.getOriginalFilename());
+		}
+		service.write(vo, imageFileNames, size_names, color_names);
+		
+		return "redirect:list.do";
+	}
 }
 
 

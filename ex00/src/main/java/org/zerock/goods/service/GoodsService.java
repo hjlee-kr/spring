@@ -17,7 +17,10 @@ public interface GoodsService {
 	// 상품 보기
 	public GoodsVO view(Long goods_no);
 	// 상품 등록
-	public Integer write(GoodsVO vo);
+	public Integer write(GoodsVO vo,
+		List<String> imageFileNames,
+		List<String> size_names,
+		List<String> color_names);
 	// 상품 수정
 	public Integer update(GoodsVO vo);
 	// 상품 삭제

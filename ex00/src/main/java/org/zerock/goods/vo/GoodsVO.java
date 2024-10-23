@@ -2,6 +2,8 @@ package org.zerock.goods.vo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -15,6 +17,7 @@ public class GoodsVO {
 	private String image_name;
 	private String content;
 	private String company;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date product_date;
 	
 	// goods_price (현재 판매 기준)
@@ -23,7 +26,9 @@ public class GoodsVO {
 	private Integer discount_rate;
 	private Integer saved_rate;
 	private Integer delivery_charge;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date sale_start_date;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date sale_end_date;
 	
 	// 실제 판매가 getter 만들기 -> jsp ${vo.sale_price}
