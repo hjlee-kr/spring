@@ -69,9 +69,9 @@ $(function(){
 		});
 
 	});
-	
+
+	// color 추가 / 삭제
 	let colorTagCnt =1;
-	
 	
 	$("#appendColorBtn").click(function(){
 		//alert("add color button");
@@ -97,6 +97,64 @@ $(function(){
 		//alert("remove color button");
 		$(this).closest(".input-group").remove();
 		colorTagCnt--;
+	});
+	
+	// size 추가 / 삭제
+	let sizeTagCnt =1;
+	
+	$("#appendSizeBtn").click(function(){
+		//alert("add size button");
+		
+		if (sizeTagCnt >= 5) return;
+		
+		let addSizeTag = "";
+		
+		addSizeTag += '<div class="input-group mb-3">';
+		addSizeTag += '<input type="text" class="form-control" name="size_name">';
+		addSizeTag += '<div class="input-group-append">';
+		addSizeTag += '<button class="btn btn-danger removeSizeBtn" type="button">';
+		addSizeTag += '<i class="fa fa-close"></i>';
+		addSizeTag += '</button>';
+		addSizeTag += '</div>';
+		addSizeTag += '</div>';
+		
+		$(".sizeForm").append(addSizeTag);
+		sizeTagCnt++;
+	});
+	
+	$(".sizeForm").on("click", ".removeSizeBtn", function(){
+		//alert("remove size button");
+		$(this).closest(".input-group").remove();
+		sizeTagCnt--;
+	});
+	
+	// image 추가 / 삭제
+	let imageTagCnt =1;
+	
+	$("#appendImageBtn").click(function(){
+		//alert("add image button");
+		
+		if (imageTagCnt >= 5) return;
+		
+		let addImageTag = "";
+		
+		addImageTag += '<div class="input-group mb-3">';
+		addImageTag += '<input type="file" class="form-control" name="imageFiles">';
+		addImageTag += '<div class="input-group-append">';
+		addImageTag += '<button class="btn btn-danger removeImageBtn" type="button">';
+		addImageTag += '<i class="fa fa-close"></i>';
+		addImageTag += '</button>';
+		addImageTag += '</div>';
+		addImageTag += '</div>';
+		
+		$(".imageForm").append(addImageTag);
+		imageTagCnt++;
+	});
+	
+	$(".imageForm").on("click", ".removeImageBtn", function(){
+		//alert("remove image button");
+		$(this).closest(".input-group").remove();
+		imageTagCnt--;
 	});
 	
 });
@@ -204,21 +262,31 @@ $(function(){
 						</div>
 
 					</fieldset>
-					<fieldset class="border p-4">
+					<fieldset class="border p-4 sizeForm">
 						<legend class="w-auto px-2">
 							<b style="font-size: 14px">[Size]</b>
+							<button class="btn btn-primary btn-sm"
+							id="appendSizeBtn" type="button">
+								addSize
+							</button>
 						</legend>
-					
-					
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" name="size_name">
+						</div>
 					</fieldset>
 				
 				</fieldset>
-				<fieldset class="border p-4">
+				<fieldset class="border p-4 imageForm">
 					<legend class="w-auto px-2">
 						<b style="font-size: 14px">[추가이미지]</b>
+						<button class="btn btn-primary btn-sm"
+							id="appendImageBtn" type="button">
+							addImage
+						</button>
 					</legend>
-				
-				
+					<div class="input-group mb-3">
+						<input type="file" class="form-control" name="imageFiles">
+					</div>
 				</fieldset>
 			</div>
 			<div class="card-footer">
