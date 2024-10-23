@@ -51,6 +51,7 @@ public class GoodsServiceImpl implements GoodsService {
 		mapper.write(vo);
 		// 2. 등록한 goods테이블의 goods_no를 가져온다.
 		Long goods_no = mapper.getGoodsNo();
+		//Long goods_no = 0L;
 		// goods_price 테이블에 가격정보등록 (필수)
 		//vo.setGoods_no(goods_no);
 		GoodsPriceVO priceVO = new GoodsPriceVO();
