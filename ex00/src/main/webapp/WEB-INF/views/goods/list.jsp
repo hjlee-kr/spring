@@ -134,7 +134,6 @@ $(function(){
 
 <div class="container p-3 my-3">
 	<h1><i class="fa fa-align-justify"></i> 상품 리스트</h1>
-	${goodsSearchVO.searchQuery }
 	<form action="list.do" id="searchForm">
 		<input type="hidden" name="page" value="${pageObject.page }">
 		<!-- 상품검색 시작 -->
@@ -146,14 +145,22 @@ $(function(){
 							id="cate_code1" name="cate_code1">
 							<option value="0">==대분류==</option>
 							<c:forEach items="${listBig }" var="vo">
-								<option value="${vo.cate_code1 }">${vo.cate_name }</option>
+								<option value="${vo.cate_code1 }"
+								<c:if test="${ goodsSearchVO.cate_code1 == vo.cate_code1}">
+									selected
+								</c:if>
+								>${vo.cate_name }</option>
 							</c:forEach>
 						</select>
 						<select class="form-control"
 							id="cate_code2" name="cate_code2">
 							<option value="0">==중분류==</option>
 							<c:forEach items="${listMid }" var="vo">
-							<option value="${vo.cate_code2 }">${vo.cate_name }</option>
+							<option value="${vo.cate_code2 }"
+							<c:if test="${ goodsSearchVO.cate_code2 == vo.cate_code2}">
+								selected
+							</c:if>
+							>${vo.cate_name }</option>
 							</c:forEach>
 						</select>
 					</div>
