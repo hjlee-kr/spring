@@ -129,6 +129,26 @@ $(function(){
 			</div>
 		</div>
 		<!-- 상품검색 끝 -->
+		<div class="row">
+			<div class="col-md-12 form-inline">
+					<div class="form-group">
+						<label for="cate_code1">대분류: </label> <select class="form-control"
+							id="cate_code1" name="cate_code1">
+							<c:forEach items="${listBig }" var="vo">
+								<option value="${vo.cate_code1 }">${vo.cate_name }</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="cate_code2">중분류:  </label> <select class="form-control"
+							id="cate_code2" name="cate_code2">
+							<c:forEach items="${listMid }" var="vo">
+								<option value="${vo.cate_code2 }">${vo.cate_name }</option>
+							</c:forEach>
+						</select>
+					</div>
+			</div>
+		</div>
 	
 		<div class="row">
 			<div class="col-md-8">
