@@ -40,7 +40,7 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public GoodsVO view(Long goods_no) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.view(goods_no);
 	}
 
 	@Override

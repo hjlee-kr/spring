@@ -31,6 +31,9 @@ public interface GoodsMapper {
 	// 대분류/중분류 리스트 가져오기
 	public List<CategoryVO> getCategory(@Param("cate_code1") Integer cate_code1);
 	
+	// 상품 상세보기
+	public GoodsVO view(@Param("goods_no") Long goods_no);
+	
 	// 상품 등록
 	// 1. goods 테이블에 상품등록 (필수)
 	public Integer write(GoodsVO vo);

@@ -64,11 +64,13 @@ $(function(){
 		
 	});
 	
-	// 이벤트 처리
+	// 이벤트 처리 - 리스트에서 상품을 클릭했을때
 	$(".dataRow").click(function() {
-		let no = $(this).find(".no").text();
-		console.log("no=" + no);
-		location="view.do?no=" + no + "&${pageObject.pageQuery}";
+		// 자료수집 - goods_no
+		let goods_no = $(this).find(".goods_no").data("goods_no");
+		//alert("goods_no=" + goods_no);
+		location="view.do?goods_no=" + goods_no + "&${pageObject.pageQuery}"
+				+ "&${goodsSearchVO.searchQuery}";
 	});
 	
 	
@@ -220,7 +222,7 @@ $(function(){
 					  </div>
 					  <div class="card-body title">
 					    <p class="card-text">
-					    	<div>
+					    	<div class="goods_no" data-goods_no="${vo.goods_no }">
 								상품번호 : ${vo.goods_no }
 					    	</div>
 					    	<div>

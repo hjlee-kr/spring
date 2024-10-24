@@ -7,17 +7,17 @@
   	<select id="list" resultType="org.zerock.goods.vo.GoodsVO">
   		select
 	  		goods_no, goods_name, price, discount,
-	  		discount_rate, saved_rate, image_name
+	  		discount_rate, sale_price, saved_rate, image_name
   		from
   		(
 	  		select
 	  			rownum rnum, goods_no, goods_name, price, discount,
-	  			discount_rate, saved_rate, image_name
+	  			discount_rate, sale_price, saved_rate, image_name
 	  		from
 		  	(
 		  		select
 		  			g.goods_no, g.goods_name, p.price, p.discount,
-		  			p.discount_rate, p.saved_rate, g.image_name
+		  			p.discount_rate, p.sale_price, p.saved_rate, g.image_name
 		  		from
 		  			goods g, goods_price p
 		  		where
@@ -82,13 +82,13 @@
 			<!-- 최소가격 -->
 			<if test="goodsSearchVO.min_price != null and goodsSearchVO.min_price != 0">
 				<![CDATA[
-				and price >= #{goodsSearchVO.min_price}
+				and sale_price >= #{goodsSearchVO.min_price}
 				]]>
 			</if>
 			<!-- 최대가격 -->
 			<if test="goodsSearchVO.max_price != null and goodsSearchVO.max_price != 0">
 				<![CDATA[
-				and price <= #{goodsSearchVO.max_price}
+				and sale_price <= #{goodsSearchVO.max_price}
 				]]>
 			</if>
 		</trim>
@@ -110,6 +110,30 @@
   			<if test="cate_code1 > 0">
   				cate_code1 = #{cate_code1} and cate_code2 != 0
   			</if>
+  	</select>
+  	
+  	<!-- 상품 상세 보기 -->
+  	<select id="view" resultType="org.zerock.goods.vo.GoodsVO">
+  		select
+			g.goods_no, g.goods_name, g.cate_code1, 
+			g.cate_code2, g.image_name,
+			g.content, g.company, g.product_date,
+			p.price, p.discount, p.discount_rate, 
+			p.sale_price, p.saved_rate, p.delivery_charge, 
+			p.sale_start_date, p.sale_end_date
+		<!-- from 뒤에 쓸수 있는 것 : 1. table명, 2. view이름 3. select 쿼리 -->
+  		from goods g, goods_price p
+  		where
+  			<!-- 일반조건 -->
+  			(g.goods_no = #{goods_no})
+  			<![CDATA[
+		  	and ( 
+		  	sale_start_date <= sysDate and
+		  	trunc(sysDate) <= sale_end_date
+		  	)
+		  	]]>
+  			<!-- 조인조건 -->
+  			and (g.goods_no = p.goods_no)
   	</select>
   	
   	<!-- 1. 상품 등록 -->
@@ -137,8 +161,8 @@
 	<!-- 가격 정보 등록 -->
 	<insert id="writePrice">
 		insert into goods_price
-			(goods_price_no, price,
-			discount, discount_rate, saved_rate, delivery_charge
+			(goods_price_no, price, discount, discount_rate,
+			 sale_price, saved_rate, delivery_charge
 			<if test="sale_start_date != null">
 			, sale_start_date
 			</if>
@@ -149,6 +173,7 @@
 		values
 			(goods_price_seq.nextval, #{price},
 			#{discount,jdbcType=INTEGER}, #{discount_rate,jdbcType=INTEGER},
+			#{sale_price},
 			#{saved_rate,jdbcType=INTEGER}, #{delivery_charge,jdbcType=INTEGER}
 			<if test="sale_start_date != null">
 				, #{sale_start_date,jdbcType=DATE}

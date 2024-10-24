@@ -24,6 +24,7 @@ public class GoodsVO {
 	private Integer price;
 	private Integer discount;
 	private Integer discount_rate;
+	private Integer sale_price;
 	private Integer saved_rate;
 	private Integer delivery_charge;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -32,7 +33,9 @@ public class GoodsVO {
 	private Date sale_end_date;
 	
 	// 실제 판매가 getter 만들기 -> jsp ${vo.sale_price}
-	public Integer getSale_price() {
+	// getter에서 일반메서드로 변경 (DB테이블에 sale_price칼럼추가)
+	// DB에 Insert전에 => vo.setSale_price(vo.sale_price());
+	public Integer sale_price() {
 		// 할인가가 있는 경우 처리 : 정가 - 할인가
 		if (discount != 0) {
 			return price - discount;

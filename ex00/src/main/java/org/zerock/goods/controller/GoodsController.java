@@ -93,6 +93,28 @@ public class GoodsController {
 		return "goods/list";
 	}
 	
+	// 상품 상세 보기
+	// @Controller(컨트롤러)에서는 리턴할때 jsp로 이동하거나 다른uri로 이동
+	@GetMapping("/view.do")
+	public String view(
+			Long goods_no,
+			PageObject pageObject,
+			GoodsSearchVO goodsSearchVO,
+			Model model
+			) {
+
+		// 상품의 상세정보 가져오기 (상품정보 + 가격정보)
+		model.addAttribute("vo", service.view(goods_no));
+		// 사이즈 정보 리스트
+		// 색상 정보 리스트
+		// 추가 이미지 정보 리스트
+		
+		
+	
+		return "goods/view";
+	}
+	
+	
 	// 상품 등록 폼
 	@GetMapping("/writeForm.do")
 	public String writeForm(Model model) {
@@ -157,7 +179,10 @@ public class GoodsController {
 		for (MultipartFile file : imageFiles) {
 			imageFileNames.add(FileUtil.upload(path, file, request));
 		}
+		vo.setSale_price(vo.sale_price());
 		Integer result = service.write(vo, imageFileNames, size_names, color_names);
+		
+		rttr.addFlashAttribute("msg", "상품이 등록되었습니다.");
 		
 		return "redirect:list.do";
 	}
