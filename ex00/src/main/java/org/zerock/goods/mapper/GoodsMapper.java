@@ -26,15 +26,14 @@ public interface GoodsMapper {
 	// 상품 등록
 	// 1. goods 테이블에 상품등록 (필수)
 	public Integer write(GoodsVO vo);
-	// 2. 등록한 goods테이블의 goods_no를 가져온다.
-	public Long getGoodsNo();
 	// goods_price 테이블에 가격정보등록 (필수)
-	public Integer writePrice(GoodsPriceVO vo);
+	public Integer writePrice(GoodsVO vo);
 	// goods_image 테이블에 등록 (선택: imageFileName에 자료가 있으면)
 	public Integer writeImage(GoodsImageVO vo);
 	// goods_size 테이블에 등록 (선택: size_names에 자료가 있으면)
 	public Integer writeSize(GoodsSizeVO vo);
 	// goods_color 테이블에 등록 (선택: color_names에 자료가 있으면)
-	public Integer writeColor(GoodsColorVO vo);
+	//public Integer writeColor(GoodsColorVO vo);
+	public Integer writeColor(List<GoodsColorVO> list);
 	
 }

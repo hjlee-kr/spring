@@ -1,5 +1,6 @@
 package org.zerock.goods.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,22 +49,18 @@ public class GoodsServiceImpl implements GoodsService {
 			List<String> color_names) {
 		// TODO Auto-generated method stub
 		// 1. goods 테이블에 상품등록 (필수)
+		log.info("+++++ 쿼리실행 전 : goodsVO.goods_no : " + vo.getGoods_no());
 		mapper.write(vo);
+		log.info("+++++ 쿼리실행 후 : goodsVO.goods_no : " + vo.getGoods_no());
 		// 2. 등록한 goods테이블의 goods_no를 가져온다.
-		Long goods_no = mapper.getGoodsNo();
+		// <selectkey>로 goods_no를 세팅하면 보내지는 vo객체에 goods_no가 저장된다.
+		// 저장된 vo객체에서 goods_no를 꺼내온다.
+		Long goods_no = vo.getGoods_no();
 		//Long goods_no = 0L;
 		// goods_price 테이블에 가격정보등록 (필수)
 		//vo.setGoods_no(goods_no);
-		GoodsPriceVO priceVO = new GoodsPriceVO();
-		priceVO.setGoods_no(goods_no);
-		priceVO.setPrice(vo.getPrice());
-		priceVO.setDiscount(vo.getDiscount());
-		priceVO.setDiscount_rate(vo.getDiscount_rate());
-		priceVO.setSaved_rate(vo.getSaved_rate());
-		priceVO.setDelivery_charge(vo.getDelivery_charge());
-		priceVO.setSale_start_date(vo.getSale_start_date());
-		priceVO.setSale_end_date(vo.getSale_end_date());
-		mapper.writePrice(priceVO);
+		
+		mapper.writePrice(vo);
 		// goods_image 테이블에 등록 (선택: imageFileNames에 자료가 있으면)
 		for (String imageName : imageFileNames) {
 			GoodsImageVO imageVO = new GoodsImageVO();
@@ -79,12 +76,18 @@ public class GoodsServiceImpl implements GoodsService {
 			mapper.writeSize(sizeVO);
 		}
 		// goods_color 테이블에 등록 (선택: color_names에 자료가 있으면)
+		List<GoodsColorVO> colorList = null;
 		for (String colorName : color_names) {
+			if (colorList == null) colorList = new ArrayList<>();
 			GoodsColorVO colorVO = new GoodsColorVO();
 			colorVO.setGoods_no(goods_no);
 			colorVO.setColor_name(colorName);
-			mapper.writeColor(colorVO);
+			
+			colorList.add(colorVO);
 		}
+
+		if (colorList != null) mapper.writeColor(colorList);
+		
 		return 1;
 	}
 

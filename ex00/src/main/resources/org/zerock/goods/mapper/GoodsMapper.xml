@@ -26,7 +26,7 @@
 		  			<!-- 현재 판매되고 있는 상품 -->
 		  			<!-- 아래 CDATA를 사용한 태그는 안에 내용이 문자열로 DB서버에 전달 -->
 		  			<![CDATA[
-		  			sale_start_date <= trunc(sysDate) and
+		  			sale_start_date <= sysDate and
 		  			trunc(sysDate) <= sale_end_date
 		  			]]>
 		  		)
@@ -79,30 +79,51 @@
   	</select>
   	
   	<!-- 1. 상품 등록 -->
+  	<!-- jdbcType=DB로넘어가는 변수속성 (대문자)
+  		- null 로 데이터가 넘어갈때 DB에 속성을 알려주는 프로퍼티
+  		VARCHAR: 문자열, INTEGER: 정수형, BIGINT: long타입 
+  		DOUBLE: 실수형, DATE: 날짜, TIMESTAMP: 타임스탬프
+  		BOOLEAN: 논리형
+  	 -->
   	<insert id="write">
+  		<!-- insert할때 primarykey를 미리 세팅할 때 사용 -->
+  		<selectKey keyProperty="goods_no" resultType="Long" order="BEFORE">
+  			select goods_seq.nextval from dual
+  		</selectKey>
   		insert into goods
   			(goods_no, goods_name,
   			cate_code1, cate_code2, image_name,
   			content, company, product_date)
   		values
-	  		(goods_seq.nextval, #{goods_name}, #{cate_code1},
+	  		(#{goods_no}, #{goods_name}, #{cate_code1},
 	  		#{cate_code2}, #{image_name}, #{content},
-	  		#{company}, #{product_date})
+	  		#{company}, #{product_date,jdbcType=DATE})
   	</insert>
-	<!-- 등록된 상품 번호 가져오기 -->
-	<select id="getGoodsNo" resultType="Long">
-		select max(goods_no) from goods
-	</select>
+
 	<!-- 가격 정보 등록 -->
 	<insert id="writePrice">
 		insert into goods_price
 			(goods_price_no, price,
-			discount, discount_rate, saved_rate, delivery_charge,
-			sale_start_date, sale_end_date, goods_no)
+			discount, discount_rate, saved_rate, delivery_charge
+			<if test="sale_start_date != null">
+			, sale_start_date
+			</if>
+			<if test="sale_end_date != null">
+			, sale_end_date
+			</if>
+			, goods_no)
 		values
 			(goods_price_seq.nextval, #{price},
-			#{discount}, #{discount_rate}, #{saved_rate}, #{delivery_charge},
-			#{sale_start_date}, #{sale_end_date}, #{goods_no})
+			#{discount,jdbcType=INTEGER}, #{discount_rate,jdbcType=INTEGER},
+			#{saved_rate,jdbcType=INTEGER}, #{delivery_charge,jdbcType=INTEGER}
+			<if test="sale_start_date != null">
+				, #{sale_start_date,jdbcType=DATE}
+			</if>
+			<if test="sale_end_date != null">
+				, #{sale_end_date,jdbcType=DATE}
+			</if>	
+			, #{goods_no})
+				
 	</insert>
 	<!-- 추가 이미지 등록 -->
 	<insert id="writeImage">
@@ -117,11 +138,16 @@
 		values
 			(goods_size_seq.nextval, #{size_name}, #{goods_no})
 	</insert>
+	<!-- GoodsColorVO의 리스트를 받아서 한번에 처리 -->
 	<insert id="writeColor">
 		insert into goods_color
 			(goods_color_no, color_name, goods_no)
-		values
-			(goods_color_seq.nextval, #{color_name}, #{goods_no})
+		select goods_color_seq.nextval, color_name, goods_no from 
+		(
+		<foreach collection="list" item="vo" separator=" union all ">
+			select #{vo.color_name} color_name, #{vo.goods_no} goods_no from dual
+		</foreach>
+		)
 	</insert>
 	
 	
