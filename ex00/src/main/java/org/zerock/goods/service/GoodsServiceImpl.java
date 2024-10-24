@@ -12,6 +12,7 @@ import org.zerock.goods.mapper.GoodsMapper;
 import org.zerock.goods.vo.GoodsColorVO;
 import org.zerock.goods.vo.GoodsImageVO;
 import org.zerock.goods.vo.GoodsPriceVO;
+import org.zerock.goods.vo.GoodsSearchVO;
 import org.zerock.goods.vo.GoodsSizeVO;
 import org.zerock.goods.vo.GoodsVO;
 import org.zerock.util.page.PageObject;
@@ -28,11 +29,12 @@ public class GoodsServiceImpl implements GoodsService {
 	private GoodsMapper mapper;
 	
 	@Override
-	public List<GoodsVO> list(PageObject pageObject) {
+	public List<GoodsVO> list(PageObject pageObject,
+			GoodsSearchVO goodsSearchVO) {
 		// TODO Auto-generated method stub
 		pageObject.setTotalRow(mapper.getTotalRow(pageObject));
 		
-		return mapper.list(pageObject);
+		return mapper.list(pageObject, goodsSearchVO);
 	}
 
 	@Override

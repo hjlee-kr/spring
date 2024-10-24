@@ -25,7 +25,7 @@ public class GoodsSearchVO {
 	
 	// 객체가 null일때 ""(비어있는 문자열)로 변경해주는 함수
 	public String toStr (Object obj) {
-		return ((obj.toString()==null)?"":obj.toString());
+		return ((obj==null)?"":obj.toString());
 	}
 }
 

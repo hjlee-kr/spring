@@ -83,6 +83,49 @@ $(function(){
 	$("#perPageNum")
 		.val("${(empty pageObject.perPageNum)?'10':pageObject.perPageNum}");
 	
+	
+	// 대분류 리스트 변경
+	$("#cate_code1").change(function(){
+		//alert("대분류 리스트 변경");
+		let cate_code1 = $(this).val();
+		//alert("cate_code1 = " + cate_code1);
+		
+
+		$.ajax({
+			type: "get",
+			url: "/goods/getCategory.do?cate_code1=" + cate_code1,
+			//dataType: "json",
+			success: function(result, status, xhr) {
+				//alert("중분류 가져오기 성공함수");
+				console.log("==== 중분류데이터 ====");
+				console.log("result : " + JSON.stringify(result));
+				console.log("status : " + status);
+				console.log("xhr : " + xhr);
+				
+				let str = '<option value="0">==중분류==</option>';
+
+				result.forEach(function(item){
+					console.log(item.cate_name);
+					str += '<option value="' + item.cate_code2 + '">';
+					str += item.cate_name + '</option>\n';
+				});
+				
+				console.log(str);
+				
+				$("#cate_code2").html(str);
+			},
+			error: function(xhr, status, err) {
+				console.log("중분류 가져오기 오류 *************");
+				console.log("xhr : " + xhr);
+				console.log("status : " + status);
+				console.log("err : " + err);
+			}
+		});
+
+	});
+	// 대분류 리스트 변경 끝
+	
+	
 });
 </script>
 
@@ -91,7 +134,9 @@ $(function(){
 
 <div class="container p-3 my-3">
 	<h1><i class="fa fa-align-justify"></i> 상품 리스트</h1>
+	${goodsSearchVO.searchQuery }
 	<form action="list.do" id="searchForm">
+		<input type="hidden" name="page" value="${pageObject.page }">
 		<!-- 상품검색 시작 -->
 		<div class="row">
 			<div class="col-md-12">
@@ -99,14 +144,14 @@ $(function(){
 					<div class="input-group-prepend">
 						<select class="form-control"
 							id="cate_code1" name="cate_code1">
-							<option value="0">대분류</option>
+							<option value="0">==대분류==</option>
 							<c:forEach items="${listBig }" var="vo">
 								<option value="${vo.cate_code1 }">${vo.cate_name }</option>
 							</c:forEach>
 						</select>
 						<select class="form-control"
 							id="cate_code2" name="cate_code2">
-							<option value="0">중분류</option>
+							<option value="0">==중분류==</option>
 							<c:forEach items="${listMid }" var="vo">
 							<option value="${vo.cate_code2 }">${vo.cate_name }</option>
 							</c:forEach>
@@ -129,49 +174,8 @@ $(function(){
 			</div>
 		</div>
 		<!-- 상품검색 끝 -->
+
 		<div class="row">
-			<div class="col-md-12 form-inline">
-					<div class="form-group">
-						<label for="cate_code1">대분류: </label> <select class="form-control"
-							id="cate_code1" name="cate_code1">
-							<c:forEach items="${listBig }" var="vo">
-								<option value="${vo.cate_code1 }">${vo.cate_name }</option>
-							</c:forEach>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="cate_code2">중분류:  </label> <select class="form-control"
-							id="cate_code2" name="cate_code2">
-							<c:forEach items="${listMid }" var="vo">
-								<option value="${vo.cate_code2 }">${vo.cate_name }</option>
-							</c:forEach>
-						</select>
-					</div>
-			</div>
-		</div>
-	
-		<div class="row">
-			<div class="col-md-8">
-	  			<div class="input-group mt-3 mb-3">
-					<div class="input-group-prepend">
-						<select class="form-control" id="key" name="key">
-							<option value="t">제목</option>
-					        <option value="c">내용</option>
-					        <option value="w">작성자</option>
-					        <option value="tc">제목/내용</option>
-					        <option value="tw">제목/작성자</option>
-					        <option value="cw">내용/작성자</option>
-					        <option value="tcw">모두</option>
-						</select>
-					</div>
-		      		<input type="text" class="form-control" placeholder="검색어입력"
-	      				id="word" name="word" value="${pageObject.word }">
-					<div class="input-group-prepend">
-						<button type="submit" class="btn btn-primary">
-							<i class="fa fa-search"></i></button>
-					</div>
-			    </div>
-			</div> <!-- end of class="col-md-8" -->
 			<div class="col-md-4">
 				<div class="input-group mt-3 mb-3">
 				  <div class="input-group-prepend">
@@ -179,10 +183,10 @@ $(function(){
 				  </div>
 				  <select id="perPageNum" name="perPageNum"
 				   class="form-control">
-				   		<option>10</option>
-				   		<option>15</option>
-				   		<option>20</option>
-				   		<option>25</option>
+				   		<option>4</option>
+				   		<option>8</option>
+				   		<option>12</option>
+				   		<option>16</option>
 				  </select>
 				</div>
 			</div> <!-- end of class="col-md-4" -->

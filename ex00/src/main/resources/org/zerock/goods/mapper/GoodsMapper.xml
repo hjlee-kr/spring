@@ -37,7 +37,7 @@
 		  		)
 		  	)
 	  	)
-	  	where rnum between #{startRow} and #{endRow}
+	  	where rnum between #{pageObject.startRow} and #{pageObject.endRow}
   	</select>
   	
   	<!-- 페이지 처리를 위한 getTotalRow -->

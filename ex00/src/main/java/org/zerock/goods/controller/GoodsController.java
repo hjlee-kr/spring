@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +27,7 @@ import org.zerock.category.vo.CategoryVO;
 import org.zerock.goods.service.GoodsService;
 import org.zerock.goods.vo.GoodsColorVO;
 import org.zerock.goods.vo.GoodsImageVO;
+import org.zerock.goods.vo.GoodsSearchVO;
 import org.zerock.goods.vo.GoodsSizeVO;
 import org.zerock.goods.vo.GoodsVO;
 import org.zerock.util.file.FileUtil;
@@ -47,9 +49,16 @@ public class GoodsController {
 	
 	
 	@GetMapping("/list.do")
-	public String list(Model model, HttpServletRequest request) {
+	// 검색을 위한 데이터를 별도로 받아서 처리
+	// @ModelAttribute() - 전달받은 데이터를 Model에 담아서 JSP까지 전달합니다.
+	// 1. 변수선언(생성) 2. DB에서 받은 데이터 변수에 저장
+	// 3. 변수에 담긴것을 model로 넘겨서 JSP사용
+	public String list(Model model,
+			@ModelAttribute(name="goodsSearchVO") GoodsSearchVO goodsSearchVO,
+			HttpServletRequest request) {
 		
 		PageObject pageObject = PageObject.getInstance(request);
+		List<CategoryVO> listBig = new ArrayList<CategoryVO>();
 		
 		String perPageNum = request.getParameter("perPageNum");
 		
@@ -61,11 +70,14 @@ public class GoodsController {
 		}
 		
 		List<GoodsVO> list = new ArrayList<GoodsVO>();
-		
-		list = service.list(pageObject);
+
+		listBig = service.listCategory(0);
+		list = service.list(pageObject, goodsSearchVO);
 		
 		model.addAttribute("list", list);
+		model.addAttribute("listBig", listBig);
 		model.addAttribute("pageObject", pageObject);
+		//model.addAttribute("goodsSearchVO", goodsSearchVO)
 		
 		return "goods/list";
 	}

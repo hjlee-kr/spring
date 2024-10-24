@@ -46,7 +46,7 @@ $(function(){
 	});
 	
 	
-	
+	// 대분류 리스트 변경
 	$("#cate_code1").change(function(){
 		//alert("대분류 리스트 변경");
 		let cate_code1 = $(this).val();
@@ -85,6 +85,7 @@ $(function(){
 		});
 
 	});
+	// 대분류 리스트 변경 끝
 
 	// color 추가 / 삭제
 	let colorTagCnt =1;

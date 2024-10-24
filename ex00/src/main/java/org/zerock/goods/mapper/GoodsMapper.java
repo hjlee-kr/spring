@@ -8,6 +8,7 @@ import org.zerock.category.vo.CategoryVO;
 import org.zerock.goods.vo.GoodsColorVO;
 import org.zerock.goods.vo.GoodsImageVO;
 import org.zerock.goods.vo.GoodsPriceVO;
+import org.zerock.goods.vo.GoodsSearchVO;
 import org.zerock.goods.vo.GoodsSizeVO;
 import org.zerock.goods.vo.GoodsVO;
 import org.zerock.util.page.PageObject;
@@ -16,7 +17,12 @@ import org.zerock.util.page.PageObject;
 public interface GoodsMapper {
 
 	// 상품 리스트
-	public List<GoodsVO> list(PageObject pageObject);
+	// myBatis는 한 개의 객체만 전달할 수 있다.
+	// 두개이상의 객체를 전달하고 싶을 때는 @Param 어노테이션을 사용한다.
+	// @Param 어노테이션을 사용하면 Map으로 묶여서 전달됩니다.
+	public List<GoodsVO> list(
+			@Param("pageObject") PageObject pageObject,
+			@Param("goodsSearchVO") GoodsSearchVO goodsSearchVO);
 	// 상품 리스트 개수
 	public Long getTotalRow(PageObject pageObject);
 	
