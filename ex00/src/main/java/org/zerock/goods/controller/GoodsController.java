@@ -74,11 +74,16 @@ public class GoodsController {
 		listBig = service.listCategory(0);
 		list = service.list(pageObject, goodsSearchVO);
 
-		if (goodsSearchVO.getCate_code1() != 0 && goodsSearchVO.getCate_code1() != null) {
+		log.info(list);
+		log.info("goodsSearchVO = " + goodsSearchVO);
+		if (goodsSearchVO.getCate_code1() != null && goodsSearchVO.getCate_code1() != 0) {
+			log.info("goodsSearchVO.cate_code1 = " + goodsSearchVO.getCate_code1());
 			List<CategoryVO> listMid = new ArrayList<CategoryVO>();
 			listMid = service.listCategory(goodsSearchVO.getCate_code1());
 			model.addAttribute("listMid", listMid);
 		}
+		
+		
 		
 		model.addAttribute("list", list);
 		model.addAttribute("listBig", listBig);

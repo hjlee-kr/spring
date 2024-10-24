@@ -24,7 +24,9 @@ public interface GoodsMapper {
 			@Param("pageObject") PageObject pageObject,
 			@Param("goodsSearchVO") GoodsSearchVO goodsSearchVO);
 	// 상품 리스트 개수
-	public Long getTotalRow(PageObject pageObject);
+	public Long getTotalRow(
+			@Param("pageObject") PageObject pageObject,
+			@Param("goodsSearchVO") GoodsSearchVO goodsSearchVO);
 	
 	// 대분류/중분류 리스트 가져오기
 	public List<CategoryVO> getCategory(@Param("cate_code1") Integer cate_code1);

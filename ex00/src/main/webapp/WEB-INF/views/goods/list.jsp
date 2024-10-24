@@ -168,7 +168,7 @@ $(function(){
 	      				id="goods_name" name="goods_name"
 	      				value="${goodsSearchVO.goods_name }">
 	      			<input type="text" class="form-control" placeholder="최저가격입력"
-	      				id="min_price" name="min_price"
+	      				id="min_price" name="min_price" 
 	      				value="${goodsSearchVO.min_price }">
 	      			<input type="text" class="form-control" placeholder="최고가격입력"
 	      				id="max_price" name="max_price"

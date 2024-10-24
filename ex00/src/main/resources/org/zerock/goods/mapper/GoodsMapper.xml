@@ -22,6 +22,8 @@
 		  			goods g, goods_price p
 		  		where
 		  		(
+		  			<!-- 검색조건 -->
+		  			<include refid="search" />
 		  			<!-- 일반조건 -->
 		  			<!-- 현재 판매되고 있는 상품 -->
 		  			<!-- 아래 CDATA를 사용한 태그는 안에 내용이 문자열로 DB서버에 전달 -->
@@ -46,11 +48,13 @@
   		from goods g, goods_price p
   		where
   		(
+  			<!-- 검색조건 -->
+ 			<include refid="search" />
 		  	<!-- 일반조건 -->
 		  	<!-- 현재 판매되고 있는 상품 -->
 		  	<!-- 아래 CDATA를 사용한 태그는 안에 내용이 문자열로 DB서버에 전달 -->
 		  	<![CDATA[
-		  	sale_start_date <= trunc(sysDate) and
+		  	sale_start_date <= sysDate and
 		  	trunc(sysDate) <= sale_end_date
 		  	]]>
 		)
@@ -60,6 +64,36 @@
 			g.goods_no = p.goods_no
 		)
   	</select>
+  	
+  	<!-- 검색 -->
+  	<sql id="search">
+  		<trim prefixOverrides="and" suffix="and">
+  			<!-- 카테고리 대분류, 중분류-->
+	  	 	<if test="goodsSearchVO.cate_code1 != null and goodsSearchVO.cate_code1 != 0">
+	  			and cate_code1 = ${goodsSearchVO.cate_code1}
+	  			<if test="goodsSearchVO.cate_code2 != null and goodsSearchVO.cate_code2 != 0">
+	  				and cate_code2 = ${goodsSearchVO.cate_code2}
+	  			</if>
+			</if>
+			<!-- 제품명 -->
+			<if test="goodsSearchVO.goods_name != null and goodsSearchVO.goods_name != ''.toString()">
+				and goods_name like '%' || #{goodsSearchVO.goods_name} || '%'
+			</if>
+			<!-- 최소가격 -->
+			<if test="goodsSearchVO.min_price != null and goodsSearchVO.min_price != 0">
+				<![CDATA[
+				and price >= #{goodsSearchVO.min_price}
+				]]>
+			</if>
+			<!-- 최대가격 -->
+			<if test="goodsSearchVO.max_price != null and goodsSearchVO.max_price != 0">
+				<![CDATA[
+				and price <= #{goodsSearchVO.max_price}
+				]]>
+			</if>
+		</trim>
+  	</sql>
+  	
   	
   	<!-- 대분류/중분류 가져오기 -->
   	<select id="getCategory" resultType="org.zerock.category.vo.CategoryVO">

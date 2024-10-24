@@ -32,7 +32,7 @@ public class GoodsServiceImpl implements GoodsService {
 	public List<GoodsVO> list(PageObject pageObject,
 			GoodsSearchVO goodsSearchVO) {
 		// TODO Auto-generated method stub
-		pageObject.setTotalRow(mapper.getTotalRow(pageObject));
+		pageObject.setTotalRow(mapper.getTotalRow(pageObject, goodsSearchVO));
 		
 		return mapper.list(pageObject, goodsSearchVO);
 	}
