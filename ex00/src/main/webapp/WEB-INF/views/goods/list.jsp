@@ -92,6 +92,44 @@ $(function(){
 <div class="container p-3 my-3">
 	<h1><i class="fa fa-align-justify"></i> 상품 리스트</h1>
 	<form action="list.do" id="searchForm">
+		<!-- 상품검색 시작 -->
+		<div class="row">
+			<div class="col-md-12">
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<select class="form-control"
+							id="cate_code1" name="cate_code1">
+							<option value="0">대분류</option>
+							<c:forEach items="${listBig }" var="vo">
+								<option value="${vo.cate_code1 }">${vo.cate_name }</option>
+							</c:forEach>
+						</select>
+						<select class="form-control"
+							id="cate_code2" name="cate_code2">
+							<option value="0">중분류</option>
+							<c:forEach items="${listMid }" var="vo">
+							<option value="${vo.cate_code2 }">${vo.cate_name }</option>
+							</c:forEach>
+						</select>
+					</div>
+					<input type="text" class="form-control" placeholder="상품명 검색"
+	      				id="goods_name" name="goods_name"
+	      				value="${goodsSearchVO.goods_name }">
+	      			<input type="text" class="form-control" placeholder="최저가격입력"
+	      				id="min_price" name="min_price"
+	      				value="${goodsSearchVO.min_price }">
+	      			<input type="text" class="form-control" placeholder="최고가격입력"
+	      				id="max_price" name="max_price"
+	      				value="${goodsSearchVO.max_price }">
+	      			<div class="input-group-prepend">
+						<button type="submit" class="btn btn-primary">
+							<i class="fa fa-search"></i></button>
+					</div>
+  				</div>
+			</div>
+		</div>
+		<!-- 상품검색 끝 -->
+	
 		<div class="row">
 			<div class="col-md-8">
 	  			<div class="input-group mt-3 mb-3">
