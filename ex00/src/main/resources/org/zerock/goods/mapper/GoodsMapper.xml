@@ -116,13 +116,13 @@
   	<select id="view" resultType="org.zerock.goods.vo.GoodsVO">
   		select
 			g.goods_no, g.goods_name, g.cate_code1, 
-			g.cate_code2, g.image_name,
+			g.cate_code2, g.image_name, c.cate_name,
 			g.content, g.company, g.product_date,
 			p.price, p.discount, p.discount_rate, 
 			p.sale_price, p.saved_rate, p.delivery_charge, 
 			p.sale_start_date, p.sale_end_date
 		<!-- from 뒤에 쓸수 있는 것 : 1. table명, 2. view이름 3. select 쿼리 -->
-  		from goods g, goods_price p
+  		from goods g, goods_price p, category c
   		where
   			<!-- 일반조건 -->
   			(g.goods_no = #{goods_no})
@@ -134,6 +134,7 @@
 		  	]]>
   			<!-- 조인조건 -->
   			and (g.goods_no = p.goods_no)
+  			and (g.cate_code1 = c.cate_code1 and g.cate_code2 = c.cate_code2)
   	</select>
   	
   	<!-- 상품 사이즈 리스트 -->
@@ -228,7 +229,15 @@
 		)
 	</insert>
 	
-	
+	<!-- 상품수정 -->
+	<update id="update">
+		update goods set
+			cate_code1 = #{cate_code1}, cate_code2 = #{cate_code2},
+			goods_name = #{goods_name}, company = #{company},
+			content = #{content}, product_date = #{product_date}
+		where 
+			goods_no = #{goods_no}
+	</update>
 	
   </mapper>
   

@@ -99,7 +99,8 @@ public class GoodsController {
 	public String view(
 			Long goods_no,
 			PageObject pageObject,
-			GoodsSearchVO goodsSearchVO,
+			// @ModelAttribute()를 선언하면 선언된 객체를 model에 담는다. -> JSP전달
+			@ModelAttribute(name="goodsSearchVO") GoodsSearchVO goodsSearchVO,
 			Model model
 			) {
 
@@ -112,7 +113,11 @@ public class GoodsController {
 		// 추가 이미지 정보 리스트
 		model.addAttribute("imageList", service.imageList(goods_no));
 		
-		
+		// JSP EL객체
+		// ${goodsSearchVO.cate_code1}
+		// => goodsSearchVO.getCate_code1();
+		// ${goodsSearchVO.searchQuery}
+		// => goodsSearchVO.getSearchQuery();
 	
 		return "goods/view";
 	}
@@ -188,6 +193,68 @@ public class GoodsController {
 		rttr.addFlashAttribute("msg", "상품이 등록되었습니다.");
 		
 		return "redirect:list.do";
+	}
+	
+	// 상품 수정 폼
+	@GetMapping("/updateForm.do")
+	public String updateForm(
+			Long goods_no,
+			PageObject pageObject,
+			// @ModelAttribute()를 선언하면 선언된 객체를 model에 담는다. -> JSP전달
+			@ModelAttribute(name="goodsSearchVO") GoodsSearchVO goodsSearchVO,
+			Model model
+			) {
+		List<CategoryVO> listBig = new ArrayList<CategoryVO>();
+		List<CategoryVO> listMid = new ArrayList<CategoryVO>();
+		
+		listBig = service.listCategory(0);
+		// 대분류 첫번째에 있는 중분류를 가져온다.
+		listMid = service.listCategory(listBig.get(0).getCate_code1());
+		
+		// 상품의 상세정보 가져오기 (상품정보 + 가격정보)
+		model.addAttribute("vo", service.view(goods_no));
+		// 사이즈 정보 리스트
+		model.addAttribute("sizeList", service.sizeList(goods_no));
+		// 색상 정보 리스트
+		model.addAttribute("colorList", service.colorList(goods_no));
+		// 추가 이미지 정보 리스트
+		model.addAttribute("imageList", service.imageList(goods_no));
+		model.addAttribute("listBig", listBig);
+		model.addAttribute("listMid", listMid);
+		
+		return "goods/update";
+	}
+	
+	// 상품 수정 처리
+	@PostMapping("/update.do")
+	public String update(
+			GoodsVO vo,
+			GoodsSizeVO sizeVO,
+			GoodsColorVO colorVO,
+			PageObject pageObject,
+			GoodsSearchVO goodsSearchVO,
+			RedirectAttributes rttr) {
+		
+		// 상품 상세 정보 수정
+		service.update(vo);
+		// 상품 사이즈 수정 => 기존정보 삭제 => 추가
+		// 상품 컬러 수정 => 기본정보 삭제 => 추가
+		
+		return "redirect:view.do?goods_no=";
+	}
+	
+	// 이미지 수정 처리
+	@PostMapping("/updateImage.do")
+	public String updateImage(
+			) {
+		return "redirect:update.do?goods_no=";
+	}
+	
+	// 이미지 삭제 처리
+	@PostMapping("/deleteImage.do")
+	public String deleteImage(
+			) {
+		return "redirect:update.do?goods_no=";
 	}
 	
 

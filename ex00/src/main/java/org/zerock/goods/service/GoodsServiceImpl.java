@@ -117,7 +117,7 @@ public class GoodsServiceImpl implements GoodsService {
 	@Override
 	public Integer update(GoodsVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		return mapper.update(vo);
 	}
 
 	@Override

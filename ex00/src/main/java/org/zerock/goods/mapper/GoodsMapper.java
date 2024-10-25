@@ -53,4 +53,7 @@ public interface GoodsMapper {
 	//public Integer writeColor(GoodsColorVO vo);
 	public Integer writeColor(List<GoodsColorVO> list);
 	
+	
+	// 상품수정
+	public Integer update(GoodsVO vo);
 }

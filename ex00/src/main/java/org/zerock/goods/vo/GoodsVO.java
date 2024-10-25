@@ -14,6 +14,7 @@ public class GoodsVO {
 	private String goods_name;
 	private Integer cate_code1;
 	private Integer cate_code2;
+	private String cate_name;
 	private String image_name;
 	private String content;
 	private String company;
