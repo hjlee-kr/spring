@@ -119,6 +119,7 @@ $(function(){
 	// size 추가 / 삭제
 	let sizeTagCnt =1;
 	
+	
 	$("#appendSizeBtn").click(function(){
 		//alert("add size button");
 		
@@ -188,86 +189,88 @@ $(function(){
 						<label for="cate_code1">대분류</label>
 						<select class="form-control"
 							id="cate_code1" name="cate_code1">
-						<c:forEach items="${listBig }" var="vo">
-							<option value="${vo.cate_code1 }"
-								${(vo.cate_code1 == cate_code1)?'selected':''}>
-								${vo.cate_name }
-							</option>
-						</c:forEach>
+							<c:forEach items="${listBig }" var="listVO">
+								<option value="${listVO.cate_code1 }"
+									${(vo.cate_code1 == listVO.cate_code1)?'selected':''}>
+									${listVO.cate_name }
+								</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div class="form-group">
 						<label for="cate_code2">중분류</label>
 						<select class="form-control"
 							id="cate_code2" name="cate_code2">
-						<c:forEach items="${listMid }" var="vo">
-							<option value="${vo.cate_code2 }"
-								${(vo.cate_code2 == cate_code2)?'selected':''}>
-								${vo.cate_name }
-							</option>
-						</c:forEach>
+							<c:forEach items="${listMid }" var="listVO">
+								<option value="${listVO.cate_code2 }"
+									${(vo.cate_code2 == listVO.cate_code2)?'selected':''}>
+									${listVO.cate_name }
+								</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div class="form-group">
 					<label for="goods_name">상품명</label>
 					<input class="form-control" id="goods_name"
-						name="goods_name" required>
+						name="goods_name" required value="${vo.goods_name }">
 				</div>
 				<div class="form-group">
 					<!-- 파일로 넘어가는 데이터는 GoodsVO 객체의 이름과 다른이름을 사용해야 합니다. -->
 					<label for="imageMain">대표이미지</label>
-					<input type="file" class="form-control"
-						id="imageMain" name="imageMain" required>
+					<img alt="" src="${vo.image_name }" style="width: 100px; height: 100px;">
 				</div>
 				<div class="form-group">
 					<label for="content">상품설명</label>
 					<textarea rows="10" class="form-control"
-						id="content" name="content"></textarea>
+						id="content" name="content">${vo.content }</textarea>
 				</div>
 				<div class="form-group">
 					<label for="company">제조사</label>
 					<input class="form-control" id="company"
-						name="company" required>
+						name="company" required value="${vo.company }">
 				</div>
 				<div class="form-group">
 					<label for="product_date">생산일</label>
 					<input class="form-control datepicker" readonly
-						id="product_date" name="product_date">
+						id="product_date" name="product_date"
+						value="<fmt:formatDate value='${vo.product_date }' pattern='yyyy-MM-dd' />">
 				</div>
 				<div class="form-group">
 					<label for="price">정가</label>
 					<input class="form-control" id="price"
-						name="price" required>
+						name="price" required value="${vo.price }">
 				</div>
 				<div class="form-group">
 					<label for="discount">할인금액</label>
 					<input class="form-control" id="discount"
-						name="discount" value="0">
+						name="discount" value=${vo.discount }>
 				</div>
 				<div class="form-group">
 					<label for="discount_rate">할인율</label>
 					<input class="form-control" id="discount_rate"
-						name="discount_rate" value="0">
+						name="discount_rate" value="${vo.discount_rate }">
 				</div>
 				<div class="form-group">
 					<label for="saved_rate">적립율</label>
 					<input class="form-control" id="saved_rate"
-						name="saved_rate" value="0">
+						name="saved_rate" value="${vo.saved_rate }">
 				</div>
 				<div class="form-group">
 					<label for="delivery_charge">배송료</label>
 					<input class="form-control" id="delivery_charge"
-						name="delivery_charge" value="0">
+						name="delivery_charge" value="${vo.delivery_charge }">
 				</div>
 				<div class="form-group">
 					<label for="sale_start_date">판매시작일</label>
 					<input class="form-control datepicker" readonly
-						id="sale_start_date" name="sale_start_date">
+						id="sale_start_date" name="sale_start_date"
+						value="<fmt:formatDate value='${vo.sale_start_date }' pattern='yyyy-MM-dd' />">
 				</div>
 				<div class="form-group">
 					<label for="sale_end_date">판매종료일</label>
 					<input class="form-control datepicker" readonly
-						id="sale_end_date" name="sale_end_date">
+						id="sale_end_date" name="sale_end_date"
+						value="<fmt:formatDate value='${vo.sale_end_date }' pattern='yyyy-MM-dd' />">
 				</div>
 				<fieldset class="border p-4">
 					<legend class="w-auto px-2">
@@ -281,10 +284,26 @@ $(function(){
 								addColor
 							</button>
 						</legend>
-						<div class="input-group mb-3">
-							<input type="text" class="form-control" name="color_names">
-						</div>
-
+						<c:if test="${empty colorList }">
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" name="color_names">
+							</div>
+						</c:if>
+						<c:if test="${!empty colorList }">
+							<c:forEach items="${colorList}" var="colorVO" varStatus="status">
+								<div class="input-group mb-3">
+									<input type="text" class="form-control"
+										name="color_names" value=${colorVO.color_name }>
+									<c:if test="${status.index != 0 }">
+										<div class="input-group-append">
+											<button class="btn btn-danger removeColorBtn" type="button">
+												<i class="fa fa-close"></i>
+											</button>
+										</div>
+									</c:if>	
+								</div>					
+							</c:forEach>
+						</c:if>
 					</fieldset>
 					<fieldset class="border p-4 sizeForm">
 						<legend class="w-auto px-2">
@@ -294,9 +313,26 @@ $(function(){
 								addSize
 							</button>
 						</legend>
-						<div class="input-group mb-3">
-							<input type="text" class="form-control" name="size_names">
-						</div>
+						<c:if test="${empty sizeList }">
+							<div class="input-group mb-3">
+								<input type="text" class="form-control" name="size_names">
+							</div>
+						</c:if>
+						<c:if test="${!empty sizeList }">
+							<c:forEach items="${sizeList}" var="sizeVO" varStatus="status">
+								<div class="input-group mb-3">
+									<input type="text" class="form-control"
+										name="size_names" value=${sizeVO.size_name }>
+									<c:if test="${status.index != 0 }">
+										<div class="input-group-append">
+											<button class="btn btn-danger removeSizeBtn" type="button">
+												<i class="fa fa-close"></i>
+											</button>
+										</div>
+									</c:if>	
+								</div>					
+							</c:forEach>
+						</c:if>
 					</fieldset>
 				
 				</fieldset>
@@ -308,9 +344,18 @@ $(function(){
 							addImage
 						</button>
 					</legend>
-					<div class="input-group mb-3">
-						<input type="file" class="form-control" name="imageFiles">
-					</div>
+					<c:if test="${empty imageList }">
+						<div class="input-group mb-3">
+							<input type="file" class="form-control" name="imageFiles">
+						</div>
+					</c:if>
+					<c:if test="${!empty imageList }">
+						<c:forEach items="${imageList}" var="imageVO" varStatus="status">
+							<div class="input-group mb-3">
+								<img src="${imageVO.image_name }" style="height: 100px; width: 100px;">
+							</div>					
+						</c:forEach>
+					</c:if>
 				</fieldset>
 			</div>
 			<div class="card-footer">
