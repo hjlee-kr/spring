@@ -136,6 +136,25 @@
   			and (g.goods_no = p.goods_no)
   	</select>
   	
+  	<!-- 상품 사이즈 리스트 -->
+  	<select id="sizeList" resultType="org.zerock.goods.vo.GoodsSizeVO">
+  		select goods_size_no, size_name, goods_no
+  		from goods_size
+  		where goods_no = #{goods_no}
+  	</select>
+  	<!-- 상품 컬러 리스트 -->
+  	<select id="colorList" resultType="org.zerock.goods.vo.GoodsColorVO">
+  		select goods_color_no, color_name, goods_no
+  		from goods_color
+  		where goods_no = #{goods_no}
+  	</select>
+  	<!-- 상품 이미지 리스트 -->
+  	<select id="imageList" resultType="org.zerock.goods.vo.GoodsImageVO">
+  		select goods_image_no, image_name, goods_no
+  		from goods_image
+  		where goods_no = #{goods_no}
+  	</select>
+  	
   	<!-- 1. 상품 등록 -->
   	<!-- jdbcType=DB로넘어가는 변수속성 (대문자)
   		- null 로 데이터가 넘어갈때 DB에 속성을 알려주는 프로퍼티

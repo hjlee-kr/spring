@@ -33,6 +33,12 @@ public interface GoodsMapper {
 	
 	// 상품 상세보기
 	public GoodsVO view(@Param("goods_no") Long goods_no);
+	// 상품 사이즈 리스트
+	public List<GoodsSizeVO> sizeList(@Param("goods_no") Long goods_no);
+	// 상품 컬러 리스트
+	public List<GoodsColorVO> colorList(@Param("goods_no") Long goods_no);
+	// 상품 이미지 리스트
+	public List<GoodsImageVO> imageList(@Param("goods_no") Long goods_no);
 	
 	// 상품 등록
 	// 1. goods 테이블에 상품등록 (필수)

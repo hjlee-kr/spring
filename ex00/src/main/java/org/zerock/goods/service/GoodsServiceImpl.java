@@ -37,11 +37,32 @@ public class GoodsServiceImpl implements GoodsService {
 		return mapper.list(pageObject, goodsSearchVO);
 	}
 
+	// 상품 정보 보기
 	@Override
 	public GoodsVO view(Long goods_no) {
 		// TODO Auto-generated method stub
 		return mapper.view(goods_no);
 	}
+	// 상품 사이즈 리스트
+	@Override
+	public List<GoodsSizeVO> sizeList(Long goods_no) {
+		// TODO Auto-generated method stub
+		return mapper.sizeList(goods_no);
+	}
+	// 상품 컬러 리스트
+	@Override
+	public List<GoodsColorVO> colorList(Long goods_no) {
+		// TODO Auto-generated method stub
+		return mapper.colorList(goods_no);
+	}
+	// 상품 이미지 리스트
+	@Override
+	public List<GoodsImageVO> imageList(Long goods_no) {
+		// TODO Auto-generated method stub
+		return mapper.imageList(goods_no);
+	}
+	
+	
 
 	@Override
 	@Transactional	// 쿼리중 하나라도 문제가 생기거나 처리되지 않으면 자동 Rollback합니다.
@@ -110,5 +131,7 @@ public class GoodsServiceImpl implements GoodsService {
 		// TODO Auto-generated method stub
 		return mapper.getCategory(cate_code1);
 	}
+
+	
 
 }

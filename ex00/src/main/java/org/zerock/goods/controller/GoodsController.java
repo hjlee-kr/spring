@@ -106,8 +106,11 @@ public class GoodsController {
 		// 상품의 상세정보 가져오기 (상품정보 + 가격정보)
 		model.addAttribute("vo", service.view(goods_no));
 		// 사이즈 정보 리스트
+		model.addAttribute("sizeList", service.sizeList(goods_no));
 		// 색상 정보 리스트
+		model.addAttribute("colorList", service.colorList(goods_no));
 		// 추가 이미지 정보 리스트
+		model.addAttribute("imageList", service.imageList(goods_no));
 		
 		
 	

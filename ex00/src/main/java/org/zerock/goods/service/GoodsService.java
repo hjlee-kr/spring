@@ -3,7 +3,10 @@ package org.zerock.goods.service;
 import java.util.List;
 
 import org.zerock.category.vo.CategoryVO;
+import org.zerock.goods.vo.GoodsColorVO;
+import org.zerock.goods.vo.GoodsImageVO;
 import org.zerock.goods.vo.GoodsSearchVO;
+import org.zerock.goods.vo.GoodsSizeVO;
 import org.zerock.goods.vo.GoodsVO;
 import org.zerock.util.page.PageObject;
 
@@ -16,8 +19,15 @@ public interface GoodsService {
 	// 대분류 / 중분류 리스트 가져오기
 	public List<CategoryVO> listCategory (Integer cate_code1);
 	
-	// 상품 보기
+	// 상품 정보 보기
 	public GoodsVO view(Long goods_no);
+	// 상품 사이즈 리스트
+	public List<GoodsSizeVO> sizeList(Long goods_no);
+	// 상품 컬러 리스트
+	public List<GoodsColorVO> colorList(Long goods_no);
+	// 상품 이미지 리스트
+	public List<GoodsImageVO> imageList(Long goods_no);
+	
 	// 상품 등록
 	public Integer write(GoodsVO vo,
 		List<String> imageFileNames,
