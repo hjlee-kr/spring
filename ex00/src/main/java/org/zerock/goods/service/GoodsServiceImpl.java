@@ -115,9 +115,34 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	@Override
-	public Integer update(GoodsVO vo) {
+	@Transactional
+	public Integer update(GoodsVO vo,
+			List<String> size_names,
+			List<String> color_names) {
 		// TODO Auto-generated method stub
-		return mapper.update(vo);
+		Integer result = mapper.update(vo);
+		result = mapper.updatePrice(vo);
+		// 사이즈 리스트 삭제 및 등록
+		Long goods_no = vo.getGoods_no();
+		mapper.deleteSize(goods_no);
+		for (String sizeName : size_names) {
+			GoodsSizeVO sizeVO = new GoodsSizeVO();
+			sizeVO.setGoods_no(goods_no);
+			sizeVO.setSize_name(sizeName);
+			mapper.writeSize(sizeVO);
+		}
+		// 컬러 리스트 삭제 및 등록
+		mapper.deleteColor(goods_no);
+		List<GoodsColorVO> colorList = null;
+		for (String colorName : color_names) {
+			if (colorList == null) colorList = new ArrayList<>();
+			GoodsColorVO colorVO = new GoodsColorVO();
+			colorVO.setGoods_no(goods_no);
+			colorVO.setColor_name(colorName);
+			
+			colorList.add(colorVO);
+		}
+		return result;
 	}
 
 	@Override

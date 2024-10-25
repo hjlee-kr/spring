@@ -229,16 +229,16 @@ public class GoodsController {
 	@PostMapping("/update.do")
 	public String update(
 			GoodsVO vo,
-			GoodsSizeVO sizeVO,
-			GoodsColorVO colorVO,
+			List<String> size_names,
+			List<String> color_names,
 			PageObject pageObject,
 			GoodsSearchVO goodsSearchVO,
 			RedirectAttributes rttr) {
 		
 		// 상품 상세 정보 수정
-		service.update(vo);
 		// 상품 사이즈 수정 => 기존정보 삭제 => 추가
 		// 상품 컬러 수정 => 기본정보 삭제 => 추가
+		service.update(vo, size_names, color_names);
 		
 		return "redirect:view.do?goods_no=";
 	}

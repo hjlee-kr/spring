@@ -120,7 +120,8 @@
 			g.content, g.company, g.product_date,
 			p.price, p.discount, p.discount_rate, 
 			p.sale_price, p.saved_rate, p.delivery_charge, 
-			p.sale_start_date, p.sale_end_date
+			p.sale_start_date, p.sale_end_date,
+			p.goods_price_no
 		<!-- from 뒤에 쓸수 있는 것 : 1. table명, 2. view이름 3. select 쿼리 -->
   		from goods g, goods_price p, category c
   		where
@@ -238,7 +239,34 @@
 		where 
 			goods_no = #{goods_no}
 	</update>
+	<!-- 상품가격수정 -->
+	<update id="updatePrice">
+		update goods_price set
+			price = #{price}, discount = #{discount},
+			discount_rate = #{discount_rate},
+			sale_price = #{sale_price}, saved_rate = #{saved_rate},
+			delivery_charge = #{delivery_charge},
+			sale_start_date = #{sale_start_date},
+			sale_end_date = #{sale_end_date}
+		where
+			goods_no = #{goods_no} and goods_price_no = #{goods_price_no}
+	</update>
 	
+	<!-- 상품 사이즈 삭제 -->
+	<delete id="deleteSize">
+		delete from goods_size
+		where goods_no = #{goods_no}
+	</delete>
+	<!-- 상품 컬러 삭제 --> 
+	<delete id="deleteColor">
+		delete from goods_color
+		where goods_no = #{goods_no}
+	</delete>
+	<!-- 상품 추가 이미지 삭제 -->
+	<delete id="deleteImage">
+		delete from goods_image
+		where image_name = #{image_name}
+	</delete>
   </mapper>
   
   

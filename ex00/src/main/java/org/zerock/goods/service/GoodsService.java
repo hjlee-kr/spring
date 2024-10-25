@@ -34,7 +34,9 @@ public interface GoodsService {
 		List<String> size_names,
 		List<String> color_names);
 	// 상품 수정
-	public Integer update(GoodsVO vo);
+	public Integer update(GoodsVO vo,
+			List<String> size_names,
+			List<String> color_names);
 	// 상품 삭제
 	public Integer delete(GoodsVO vo);
 	

@@ -54,6 +54,19 @@ public interface GoodsMapper {
 	public Integer writeColor(List<GoodsColorVO> list);
 	
 	
-	// 상품수정
+	// 상품정보수정
 	public Integer update(GoodsVO vo);
+	// 상품가격수정
+	public Integer updatePrice(GoodsVO vo);
+	// 상품사이즈삭제
+	public Integer deleteSize(Long goods_no);
+	// 상품컬러삭제
+	public Integer deleteColor(Long goods_no);
+	// 상품이미지삭제
+	public Integer deleteImage(String image_name);
+	
+	
 }
+
+
+

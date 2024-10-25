@@ -22,6 +22,7 @@ public class GoodsVO {
 	private Date product_date;
 	
 	// goods_price (현재 판매 기준)
+	private Long goods_price_no;
 	private Integer price;
 	private Integer discount;
 	private Integer discount_rate;
