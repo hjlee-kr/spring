@@ -199,7 +199,7 @@ public class GoodsController {
 	@GetMapping("/updateForm.do")
 	public String updateForm(
 			Long goods_no,
-			PageObject pageObject,
+			@ModelAttribute(name="pageObject") PageObject pageObject,
 			// @ModelAttribute()를 선언하면 선언된 객체를 model에 담는다. -> JSP전달
 			@ModelAttribute(name="goodsSearchVO") GoodsSearchVO goodsSearchVO,
 			Model model
@@ -212,7 +212,7 @@ public class GoodsController {
 		listMid = service.listCategory(listBig.get(0).getCate_code1());
 		
 		// 상품의 상세정보 가져오기 (상품정보 + 가격정보)
-		model.addAttribute("vo", service.view(goods_no));
+		model.addAttribute("goodsVO", service.view(goods_no));
 		// 사이즈 정보 리스트
 		model.addAttribute("sizeList", service.sizeList(goods_no));
 		// 색상 정보 리스트
@@ -228,19 +228,29 @@ public class GoodsController {
 	// 상품 수정 처리
 	@PostMapping("/update.do")
 	public String update(
-			GoodsVO vo,
-			List<String> size_names,
-			List<String> color_names,
+			@ModelAttribute(name = "goodsVO") GoodsVO goodsVO,
+			@RequestParam("size_names") ArrayList<String> size_names,
+			@RequestParam("color_names") ArrayList<String> color_names,
 			PageObject pageObject,
-			GoodsSearchVO goodsSearchVO,
-			RedirectAttributes rttr) {
+		//	@ModelAttribute(name = "goodsSearchVO") GoodsSearchVO goodsSearchVO,
+			RedirectAttributes rttr) throws Exception {
 		
+		log.info("update.do===========");
 		// 상품 상세 정보 수정
+		log.info(goodsVO);
+		//log.info(goodsSearchVO);
 		// 상품 사이즈 수정 => 기존정보 삭제 => 추가
+		log.info("size_names : " + size_names);
 		// 상품 컬러 수정 => 기본정보 삭제 => 추가
-		service.update(vo, size_names, color_names);
+		log.info("color_names : " + color_names);
+		// 할인가격 세팅
+		goodsVO.setSale_price(goodsVO.sale_price());
+		service.update(goodsVO, size_names, color_names);
 		
-		return "redirect:view.do?goods_no=";
+		return "redirect:view.do?goods_no=" + goodsVO.getGoods_no() +
+				"&" + pageObject.getPageQuery();// +
+				//"&" + goodsSearchVO.getSearchQuery();
+		
 	}
 	
 	// 이미지 수정 처리

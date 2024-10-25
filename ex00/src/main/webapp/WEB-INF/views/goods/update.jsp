@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -88,7 +89,8 @@ $(function(){
 	// 대분류 리스트 변경 끝
 
 	// color 추가 / 삭제
-	let colorTagCnt =1;
+	let colorTagCnt = ${fn:length(colorList)};
+	console.log("colorTagCnt = " + colorTagCnt);
 	
 	$("#appendColorBtn").click(function(){
 		//alert("add color button");
@@ -117,7 +119,8 @@ $(function(){
 	});
 	
 	// size 추가 / 삭제
-	let sizeTagCnt =1;
+	let sizeTagCnt =${fn:length(sizeList)};
+	console.log("sizeTagCnt = " + sizeTagCnt);
 	
 	
 	$("#appendSizeBtn").click(function(){
@@ -169,11 +172,7 @@ $(function(){
 		imageTagCnt++;
 	});
 	
-	$(".imageForm").on("click", ".removeImageBtn", function(){
-		//alert("remove image button");
-		$(this).closest(".input-group").remove();
-		imageTagCnt--;
-	});
+
 	
 });
 </script>
@@ -182,95 +181,108 @@ $(function(){
 <div class="container">
 	<div class="card">
   		<div class="card-header"><h3>상품 수정</h3></div>
-  		<form action="write.do" method="post" enctype="multipart/form-data">
+  		<form action="update.do" method="post" enctype="multipart/form-data">
+  			<input type="hidden" name="page" value="${pageObject.page}">
+  			<input type="hidden" name="perPageNum" value="${pageObject.perPageNum}">
+<%-- 			<input type="hidden" name="goodsSearchVO.cate_code1" value="${goodsSearchVO.cate_code1 }">  			 --%>
+<%-- 			<input type="hidden" name="goodsSearchVO.cate_code2" value="${goodsSearchVO.cate_code2 }">  			 --%>
+<%-- 			<input type="hidden" name="goodsSearchVO.goods_name" value="${goodsSearchVO.goods_name }">  			 --%>
+<%-- 			<input type="hidden" name="goodsSearchVO.min_price" value="${goodsSearchVO.min_price }">  			 --%>
+<%-- 			<input type="hidden" name="goodsSearchVO.max_price" value="${goodsSearchVO.max_price }">  			 --%>
+  			<input type="hidden" name="goods_price_no" value="${goodsVO.goods_price_no }">
 			<div class="card-body">
+				<div class="form-group">
+					<label for="goods_no">상품번호</label>
+					<input class="form-control" id="goods_no"
+						name="goods_no" readonly value="${goodsVO.goods_no }">
+				</div>
 			<!-- 대분류, 중분류는 java 구현후 작성할 예정 -->
-					<div class="form-group">
-						<label for="cate_code1">대분류</label>
-						<select class="form-control"
-							id="cate_code1" name="cate_code1">
-							<c:forEach items="${listBig }" var="listVO">
-								<option value="${listVO.cate_code1 }"
-									${(vo.cate_code1 == listVO.cate_code1)?'selected':''}>
-									${listVO.cate_name }
-								</option>
-							</c:forEach>
-						</select>
-					</div>
-					<div class="form-group">
-						<label for="cate_code2">중분류</label>
-						<select class="form-control"
-							id="cate_code2" name="cate_code2">
-							<c:forEach items="${listMid }" var="listVO">
-								<option value="${listVO.cate_code2 }"
-									${(vo.cate_code2 == listVO.cate_code2)?'selected':''}>
-									${listVO.cate_name }
-								</option>
-							</c:forEach>
-						</select>
-					</div>
-					<div class="form-group">
+				<div class="form-group">
+					<label for="cate_code1">대분류</label>
+					<select class="form-control"
+						id="cate_code1" name="cate_code1">
+						<c:forEach items="${listBig }" var="listVO">
+							<option value="${listVO.cate_code1 }"
+								${(goodsVO.cate_code1 == listVO.cate_code1)?'selected':''}>
+								${listVO.cate_name }
+							</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="cate_code2">중분류</label>
+					<select class="form-control"
+						id="cate_code2" name="cate_code2">
+						<c:forEach items="${listMid }" var="listVO">
+							<option value="${listVO.cate_code2 }"
+								${(goodsVO.cate_code2 == listVO.cate_code2)?'selected':''}>
+								${listVO.cate_name }
+							</option>
+						</c:forEach>
+					</select>
+				</div>
+				<div class="form-group">
 					<label for="goods_name">상품명</label>
 					<input class="form-control" id="goods_name"
-						name="goods_name" required value="${vo.goods_name }">
+						name="goods_name" required value="${goodsVO.goods_name }">
 				</div>
 				<div class="form-group">
 					<!-- 파일로 넘어가는 데이터는 GoodsVO 객체의 이름과 다른이름을 사용해야 합니다. -->
 					<label for="imageMain">대표이미지</label>
-					<img alt="" src="${vo.image_name }" style="width: 100px; height: 100px;">
+					<img alt="" src="${goodsVO.image_name }" style="width: 100px; height: 100px;">
 				</div>
 				<div class="form-group">
 					<label for="content">상품설명</label>
 					<textarea rows="10" class="form-control"
-						id="content" name="content">${vo.content }</textarea>
+						id="content" name="content">${goodsVO.content }</textarea>
 				</div>
 				<div class="form-group">
 					<label for="company">제조사</label>
 					<input class="form-control" id="company"
-						name="company" required value="${vo.company }">
+						name="company" required value="${goodsVO.company }">
 				</div>
 				<div class="form-group">
 					<label for="product_date">생산일</label>
 					<input class="form-control datepicker" readonly
 						id="product_date" name="product_date"
-						value="<fmt:formatDate value='${vo.product_date }' pattern='yyyy-MM-dd' />">
+						value="<fmt:formatDate value='${goodsVO.product_date }' pattern='yyyy-MM-dd' />">
 				</div>
 				<div class="form-group">
 					<label for="price">정가</label>
 					<input class="form-control" id="price"
-						name="price" required value="${vo.price }">
+						name="price" required value="${goodsVO.price }">
 				</div>
 				<div class="form-group">
 					<label for="discount">할인금액</label>
 					<input class="form-control" id="discount"
-						name="discount" value=${vo.discount }>
+						name="discount" value=${goodsVO.discount }>
 				</div>
 				<div class="form-group">
 					<label for="discount_rate">할인율</label>
 					<input class="form-control" id="discount_rate"
-						name="discount_rate" value="${vo.discount_rate }">
+						name="discount_rate" value="${goodsVO.discount_rate }">
 				</div>
 				<div class="form-group">
 					<label for="saved_rate">적립율</label>
 					<input class="form-control" id="saved_rate"
-						name="saved_rate" value="${vo.saved_rate }">
+						name="saved_rate" value="${goodsVO.saved_rate }">
 				</div>
 				<div class="form-group">
 					<label for="delivery_charge">배송료</label>
 					<input class="form-control" id="delivery_charge"
-						name="delivery_charge" value="${vo.delivery_charge }">
+						name="delivery_charge" value="${goodsVO.delivery_charge }">
 				</div>
 				<div class="form-group">
 					<label for="sale_start_date">판매시작일</label>
 					<input class="form-control datepicker" readonly
 						id="sale_start_date" name="sale_start_date"
-						value="<fmt:formatDate value='${vo.sale_start_date }' pattern='yyyy-MM-dd' />">
+						value="<fmt:formatDate value='${goodsVO.sale_start_date }' pattern='yyyy-MM-dd' />">
 				</div>
 				<div class="form-group">
 					<label for="sale_end_date">판매종료일</label>
 					<input class="form-control datepicker" readonly
 						id="sale_end_date" name="sale_end_date"
-						value="<fmt:formatDate value='${vo.sale_end_date }' pattern='yyyy-MM-dd' />">
+						value="<fmt:formatDate value='${goodsVO.sale_end_date }' pattern='yyyy-MM-dd' />">
 				</div>
 				<fieldset class="border p-4">
 					<legend class="w-auto px-2">
@@ -359,7 +371,9 @@ $(function(){
 				</fieldset>
 			</div>
 			<div class="card-footer">
-				<button class="btn btn-primary">등록</button>
+				<button class="btn btn-primary">수정</button>
+				<button type="reset" class="btn btn-secondary">다시입력</button>
+				<button type="button" class="btn btn-success" onclick="history.back();">취소</button>
 			</div>
 		</form>
 	</div>
