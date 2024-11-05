@@ -10,6 +10,7 @@
 <body>
 <div class="container">
 	<h2>메인입니다.</h2>
+	${weatherVO.forecastWeather }
 </div>
 </body>
 </html>
