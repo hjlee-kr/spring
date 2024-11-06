@@ -90,7 +90,7 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
-			<!-- Navbar links -->"C:/Users/EZEN/Desktop/파일썬.lnk"
+			<!-- Navbar links -->
 			<div class="collapse navbar-collapse" id="collapsibleNavbar">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item">

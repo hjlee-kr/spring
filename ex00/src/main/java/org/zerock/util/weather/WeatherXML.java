@@ -24,7 +24,7 @@ public class WeatherXML {
 	public static String getWeatherXML(int x, int y, String[] v) {
 		
 		// java.net
-		System.out.println("===GetWeatherXML===");
+		log.info("===GetWeatherXML===");
 		HttpURLConnection con = null;
 		String err = null; // Error Message
 		String serviceKey = "VGFUlyZTKsjMvCI9wyuXrhLiaxQ%2F6zLulVaPyvsOUcXZaTodcDCvKOJZ6at27B2AHy%2FYGOWDKJpZC7hXQpUB2g%3D%3D";
@@ -50,14 +50,13 @@ public class WeatherXML {
 			
 			con = (HttpURLConnection) url.openConnection();
 			
-			System.out.println(con);
+			log.info(con);
 			// org.w3c.dom -> HTML, XML과 관련된 패키지
 			// Document - HTML, XML 문서를 의미
 			// HTML요소(tag)와 관련된 작업을 도와줍니다.
 			Document doc = DocumentBuilderFactory.
 				newInstance().newDocumentBuilder().parse(con.getInputStream());
 			
-			System.out.println(doc);
 			
 			boolean ok = false;
 			Element e;

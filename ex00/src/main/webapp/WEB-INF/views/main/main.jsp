@@ -10,7 +10,13 @@
 <body>
 <div class="container">
 	<h2>메인입니다.</h2>
-	${weatherVO.forecastWeather }
+	<div style="border:1px solid black">
+	${weatherVO.forecastDate } ${weatherVO.forecastTime }<br>
+	${weatherVO.forecastRegion }<br>
+	${weatherVO.forecastWeather }<br>
+	기온 : ${weatherVO.forecastTemperature } &deg;C<br>
+	습도 : ${weatherVO.forecastHumidity } &percnt;
+	</div>  
 </div>
 </body>
 </html>
