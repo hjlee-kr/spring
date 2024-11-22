@@ -6,6 +6,18 @@
 <head>
 <meta charset="UTF-8">
 <title>main</title>
+<script type="text/javascript">
+$(function() {
+	console.log("jquery");
+	if (${!empty id}) {
+		let id = '${id}';
+		console.log("id:" + id);
+	}
+	else {
+		console.log("empty id");
+	}
+});
+</script>
 </head>
 <body>
 <div class="container">

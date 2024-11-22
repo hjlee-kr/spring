@@ -128,6 +128,14 @@ $(function() {
 				<pageNav:pageNav listURI="list.do" pageObject="${pageObject}"></pageNav:pageNav>
 			</div>
 			<a href="writeForm.do" class="btn btn-primary">글등록</a>
+			
+			<div style="border:1px solid black">
+			${weatherVO.forecastDate } ${weatherVO.forecastTime }<br>
+			${weatherVO.forecastRegion }<br>
+			${weatherVO.forecastWeather }<br>
+			기온 : ${weatherVO.forecastTemperature } &deg;C<br>
+			습도 : ${weatherVO.forecastHumidity } &percnt;
+			</div>  
 		</div>
 	</div>
 </div>

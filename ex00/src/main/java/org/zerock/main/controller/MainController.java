@@ -1,5 +1,7 @@
 package org.zerock.main.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,7 @@ public class MainController {
 	}
 	
 	@GetMapping("/main/main.do")
-	public String main(Model model) {
+	public String main(Model model, HttpSession session) {
 		log.info("/main/main.do =================");
 		// 
 		String[] wData = new String[5];
@@ -48,7 +50,10 @@ public class MainController {
 			log.error(err);
 		}
 
-		model.addAttribute("weatherVO", weatherVO);
+		//model.addAttribute("weatherVO", weatherVO);
+		log.info(session.getId());
+		session.setAttribute("weatherVO", weatherVO);
+		model.addAttribute("id", "test3");
 		
 		return "main/main";
 	}

@@ -1,6 +1,7 @@
 package org.zerock.board.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,7 +36,9 @@ public class BoardController {
 	// 1. HttpServletRequest 에 자료를 담아서 넘긴다.
 //	public String list(HttpServletRequest request) {
 	// 2. Model(Spring에서 제공) 을 이용하여 자료넘기기 
-	public String list(Model model, HttpServletRequest request) {
+	public String list(Model model,
+			//HttpSession session,
+			HttpServletRequest request) {
 	// 3. ModelAndView 를 활용
 	//public ModelAndView list(Model model) {
 		log.info("list() =======");
@@ -48,6 +51,9 @@ public class BoardController {
 		// model에 담으면 request에 자동으로 담긴다.
 		model.addAttribute("list", service.list(pageObject));
 		model.addAttribute("pageObject", pageObject);
+		
+		//log.info(session.getId());
+		
 		return "board/list";
 
 		// 3. ModelAndView 를 활용하여 데이터를 담고 페이지이동한다.
