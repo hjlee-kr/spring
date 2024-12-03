@@ -22,8 +22,9 @@ $(function(){
 		<ul>
 			<c:forEach var="result" items="${resultList }">
 				<li>
-				<a href="${result.link }">${result.title }</a>
-				 / ${result.press }</li>
+					<a href="${result.link }">${result.title }</a>
+					/ ${result.press } / ${result.date }
+				</li>
 			</c:forEach>
 		</ul>
 		</div>
