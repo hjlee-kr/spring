@@ -67,6 +67,20 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<filter>
+	    <filter-name>httpsRedirectFilter</filter-name>
+	    <filter-class>org.zerock.util.filter.HttpsRedirectFilter</filter-class>
+	    <init-param>
+	        <param-name>redirectPort</param-name>
+	        <param-value>443</param-value>
+	    </init-param>
+	</filter>
+
+	<filter-mapping>
+	    <filter-name>httpsRedirectFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<!-- JSP가 없는 경우의 처리
 		실제적인 404 처리는
 		CommonExceptionAdvice 에서 구현한
